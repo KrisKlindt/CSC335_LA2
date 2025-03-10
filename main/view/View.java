@@ -191,9 +191,11 @@ public class View {
 		
 		System.out.println("Would you like to go back to the main menu? (yes or no)");
 		
-		String answer = scanner.nextLine();
+		String answer = "";
 		
 		while(!(answer.equalsIgnoreCase("yes")) || !(answer.equalsIgnoreCase("no"))) {
+			answer = scanner.nextLine();
+			
 			if (answer.equalsIgnoreCase("yes")) {
 				break;
 			}
