@@ -71,16 +71,6 @@ public class LibraryModel {
 			}
 		}
 		
-		if (songList.size() == 0) {
-			System.out.println("This song artist is not in the library");
-		}
-		else {
-			for (Song song: songList) {
-				song.printAllDetails();
-				System.out.println(); // so there is a space between each song
-			}
-		}
-		
 		return songList;
 	}
 	
@@ -89,16 +79,6 @@ public class LibraryModel {
 		for (Album album : albums) {
 			if (album.getTitle().equalsIgnoreCase(title)) {
 				albumList.add(album);
-			}
-		}
-		
-		if (albumList.size() == 0) {
-			System.out.println("This album title is not in the library");
-		}
-		else {
-			for (Album alb: albumList) {
-				alb.printAlbumDetails();
-				System.out.println(); // so there is a space between each album
 			}
 		}
 		
@@ -113,16 +93,6 @@ public class LibraryModel {
 			}
 		}
 		
-		if (albumList.size() == 0) {
-			System.out.println("This album artist is not in the library");
-		}
-		else {
-			for (Album alb : albums) {
-				alb.printAlbumDetails();
-				System.out.println(); // so there is a space between each album
-			}
-		}
-		
 		return albumList;
 	}
 
@@ -132,8 +102,6 @@ public class LibraryModel {
 		for (Song s: songs) {
 			String title = s.getTitle();
 			titles.add(title);
-			System.out.println(title);
-			System.out.println(); // for a space between each song
 		}
 		
 		return titles;
@@ -146,8 +114,6 @@ public class LibraryModel {
 			String artist = s.getArtist();
 			if(!(artists.contains(artist))) {
 				artists.add(artist);
-				System.out.println(artist);
-				System.out.println(); // for a space between artists
 			}
 		}
 		
@@ -160,8 +126,6 @@ public class LibraryModel {
 		for (Album a: albums) {
 			String title = a.getTitle();
 			albumTitles.add(title);
-			System.out.println(title);
-			System.out.println(); // for a space between each album
 		}
 		
 		return albumTitles;
@@ -173,8 +137,6 @@ public class LibraryModel {
 		for (PlayList p: playLists) {
 			String title = p.getTitle();
 			pls.add(title);
-			System.out.println(title);
-			System.out.println(); // for a space between each play list
 		}
 		
 		return pls;
@@ -187,152 +149,18 @@ public class LibraryModel {
 			if(s.getFavorite()) {
 				String title = s.getTitle();
 				titles.add(title);
-				System.out.println(title);
-				System.out.println(); // for a space between each song
 			}
 		}
 		
 		return titles;
 	}
 
-	public boolean favoriteSong(String title) {
-		Scanner scanner = new Scanner(System.in);
-		ArrayList<Song> songList = new ArrayList<Song>();
-		
-		for (Song s: songs) {
-			if (s.getTitle().equalsIgnoreCase(title)) {
-				songList.add(s);
-			}
-		}
-		
-		if (songList.size() == 0) {
-			System.out.println("This song title is not in the library");
-			return false;
-		}
-		
-		else if (songList.size() == 1){
-			songList.get(0).markAsFavorite();
-			return true;
-		}
-		
-		else {
-			System.out.println("There are multiple songs with this name in the library");
-			for (Song s: songList) {
-				s.printAllDetails();
-			}
-			
-			System.out.println("Would you like to favorite all songs? (yes or no)");
-	    	
-	    	int count = 0;
-	    	while(count < 1) {
-		    	String choice = scanner.nextLine();
-		    	
-		    	if(choice.equalsIgnoreCase("yes")) {
-		    		for (Song s: songList) {
-						s.markAsFavorite();
-					}
-		    		System.out.println("All songs favorited");
-		    		count++;
-		    		return true;
-		    	}
-		    	
-		    	else if (choice.equalsIgnoreCase("no")) {
-		    		System.out.println("Which artist's song would you like to favorite?");
-		    		String artistName = scanner.nextLine();
-		    		boolean f = false;
-		    		for (Song s: songList) {
-		    			if(s.getArtist().equalsIgnoreCase(artistName)){
-		    				s.markAsFavorite();
-		    				System.out.println("Song favorited");
-		    				f = true;
-		    				return true;
-		    			}
-		    		}
-		    		
-		    		if(f == false) {
-		    			System.out.println("None of the chosen songs were written by this artist");
-		    		}
-		    		count++;
-		    		return false;
-		    	}
-		    	
-		    	else {
-		    		System.out.println("You typed neither yes nor no, please type either yes or no");
-		    	}
-	    	}
-		}
-		return false;
+	public void favoriteSong(Song s) {
+		s.markAsFavorite();
 	}
 	
-	public boolean rateSong(String title, int rating) {
-		Scanner scanner = new Scanner(System.in);
-		ArrayList<Song> songList = new ArrayList<Song>();
-		
-		for (Song s: songs) {
-			if (s.getTitle().equalsIgnoreCase(title)) {
-				songList.add(s);
-			}
-		}
-		
-		if (songList.size() == 0) {
-			System.out.println("This song title is not in the library");
-			return false;
-		}
-		
-		else if (songList.size() == 1){
-			songList.get(0).rateSong(rating);
-			return true;
-		}
-		
-		else {
-			System.out.println("There are multiple songs with this name in the library");
-			for (Song s: songList) {
-				s.printAllDetails();
-			}
-			
-			System.out.println("Would you like to rate all songs? (yes or no)");
-	    	
-	    	int count = 0;
-	    	while(count < 1) {
-		    	String choice = scanner.nextLine();
-		    	
-		    	if(choice.equalsIgnoreCase("yes")) {
-		    		for (Song s: songList) {
-		    			System.out.println("Song to be rated: ");
-		    			s.printAllDetails();
-						s.rateSong(rating);
-					}
-		    		System.out.println("All songs rated");
-		    		count++;
-		    		return true;
-		    	}
-		    	
-		    	else if (choice.equalsIgnoreCase("no")) {
-		    		System.out.println("Which artist's song would you like to rate?");
-		    		String artistName = scanner.nextLine();
-		    		boolean f = false;
-		    		for (Song s: songList) {
-		    			if(s.getArtist().equalsIgnoreCase(artistName)){
-		    				s.rateSong(rating);
-		    				System.out.println("Song rated");
-		    				f = true;
-		    				return true;
-		    			}
-		    		}
-		    		
-		    		if(f == false) {
-		    			System.out.println("None of the chosen songs were written by this artist");
-		    		}
-		    		count++;
-		    		return false;
-		    	}
-		    	
-		    	else {
-		    		System.out.println("You typed neither yes nor no, please type either yes or no");
-		    	}
-	    	}
-		}
-		return false;
+	public void rateSong(Song s, int rating) {
+		s.rateSong(rating);
 	}
 	
 	// These 4 methods are so that there is not a need to make a MusicStore object
