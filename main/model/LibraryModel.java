@@ -162,27 +162,4 @@ public class LibraryModel {
 	public void rateSong(Song s, int rating) {
 		s.rateSong(rating);
 	}
-	
-	// These 4 methods are so that there is not a need to make a MusicStore object
-	// in both LibraryModel and View
-	
-	public ArrayList<Song> mS_SearchSongByTitle(String title){
-		ArrayList<Song> s = mStore.searchSongByTitle(title, true);
-		return s;
-	}
-	
-	public ArrayList<Song> mS_SearchSongByArtist(String artist){
-		ArrayList<Song> s = mStore.searchSongByArtist(artist, true);
-		return s;
-	}
-	
-	public ArrayList<Album> mS_SearchAlbumByTitle(String title){
-		ArrayList<Album> albs = mStore.searchAlbumByTitle(title, true);
-		return albs;
-	}
-	
-	public ArrayList<Album> mS_SearchAlbumByArtist(String artist){
-		ArrayList<Album> albs = mStore.searchAlbumByArtist(artist, true);
-		return albs;
-	}
 }

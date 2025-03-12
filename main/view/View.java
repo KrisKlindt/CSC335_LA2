@@ -105,7 +105,7 @@ public class View {
 				else {
 					System.out.println("This user name does not exist.");
 					System.out.println("Create an account with this user name, or check that"
-							+ " the spelling is correct.");
+							+ " the spelling is correct (User name is case sensitive).");
 				}
 			}
 			else if (command == 2) {
@@ -688,10 +688,10 @@ public class View {
 	}
 	
 	public void searchSongByTitle(String title) {
-		ArrayList<Song> songList = library.searchSongByTitle(title);
+		ArrayList<Song> songList = mStore.searchSongByTitle(title, false);
 		
 		if (songList.size() == 0) {
-			System.out.println("This song title is not in the library");
+			System.out.println("This song title is not in the music store");
 		}
 		else {
 			for (Song song: songList) {
@@ -702,10 +702,10 @@ public class View {
 	}
 	
 	public void searchSongByArtist(String artist) {
-		ArrayList<Song> songList = library.searchSongByArtist(artist);
+		ArrayList<Song> songList = mStore.searchSongByArtist(artist, false);
 		
 		if (songList.size() == 0) {
-			System.out.println("This song artist is not in the library");
+			System.out.println("This song artist is not in the music store");
 		}
 		else {
 			for (Song song: songList) {
@@ -716,10 +716,10 @@ public class View {
 	}
 	
 	public void searchAlbumByTitle(String title) {
-		ArrayList<Album> albumList = library.searchAlbumByTitle(title);
+		ArrayList<Album> albumList = mStore.searchAlbumByTitle(title, false);
 		
 		if (albumList.size() == 0) {
-			System.out.println("This album title is not in the library");
+			System.out.println("This album title is not in the music store");
 		}
 		else {
 			for (Album alb: albumList) {
@@ -730,10 +730,10 @@ public class View {
 	}
 	
 	public void searchAlbumByArtist(String artist) {
-		ArrayList<Album> albumList = library.searchAlbumByArtist(artist);
+		ArrayList<Album> albumList = mStore.searchAlbumByArtist(artist, false);
 		
 		if (albumList.size() == 0) {
-			System.out.println("This album artist is not in the library");
+			System.out.println("This album artist is not in the music store");
 		}
 		else {
 			for (Album alb : albumList) {

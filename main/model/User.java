@@ -14,7 +14,7 @@ public class User {
 	private String hashedPassword;
 	private String saltString;
 	private byte[] salt;
-	private LibraryModel library;
+	public LibraryModel library;
 
 	// Used when first creating a user
 	public User(String uName, String password) {
