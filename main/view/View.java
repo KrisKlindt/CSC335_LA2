@@ -250,7 +250,7 @@ public class View {
 			else if (command == 8) {
 				System.out.println("What artist would you like to search for? ");
 				String artist = scanner.nextLine();
-				library.mS_SearchSongByArtist(artist);
+				searchSongByArtist(artist);
 				if(!(exit())) {
 					break;
 				}
@@ -258,7 +258,7 @@ public class View {
 			else if (command == 9) {
 				System.out.println("Please put in the name of the album you'd like to search for: ");
 				String albTitle = scanner.nextLine();
-				library.mS_SearchAlbumByTitle(albTitle);
+				searchAlbumByTitle(albTitle);
 				if(!(exit())) {
 					break;
 				}
@@ -266,7 +266,7 @@ public class View {
 			else if (command == 10) {
 				System.out.println("Which artist's album would you like to search for? ");
 				String albArtist = scanner.nextLine();
-				library.mS_SearchAlbumByArtist(albArtist);
+				searchAlbumByArtist(albArtist);
 				if(!(exit())) {
 					break;
 				}
@@ -274,7 +274,7 @@ public class View {
 			else if (command == 11) {
 				System.out.println("What's the title of the song you would like to favorite? ");
 				String sTitle = scanner.nextLine();
-				library.favoriteSong(sTitle);
+				favoriteSong(sTitle);
 				if(!(exit())) {
 					break;
 				}
@@ -284,42 +284,42 @@ public class View {
 				String sTitle = scanner.nextLine();
 				System.out.println("What rating would you like to give it? (Integer number 1-5)");
 				int rating = scanner.nextInt();
-				library.rateSong(sTitle, rating);
+				rateSong(sTitle, rating);
 				if(!(exit())) {
 					break;
 				}
 			}
 			else if (command == 13) {
 				System.out.println("Here are the song titles in your library: ");
-				library.getSongTitles();
+				getSongTitles();
 				if(!(exit())) {
 					break;
 				}
 			}
 			else if (command == 14) {
 				System.out.println("Here are the artists in your library: ");
-				library.getArtists();
+				getArtists();
 				if(!(exit())) {
 					break;
 				}
 			}
 			else if (command == 15) {
 				System.out.println("Here are the album titles in your library: ");
-				library.getAlbumTitles();
+				getAlbumTitles();
 				if(!(exit())) {
 					break;
 				}
 			}
 			else if (command == 16) {
 				System.out.println("Here are the playlists in your library: ");
-				library.getPlayLists();
+				getPlayLists();
 				if(!(exit())) {
 					break;
 				}
 			}
 			else if (command == 17) {
 				System.out.println("Here are the favorite song titles in your library: ");
-				library.getFavoriteSongs();
+				getFavoriteSongs();
 				if(!(exit())) {
 					break;
 				}
@@ -700,5 +700,210 @@ public class View {
 			}
 		}
 	}
+	
+	public void searchSongByArtist(String artist) {
+		ArrayList<Song> songList = library.searchSongByArtist(artist);
+		
+		if (songList.size() == 0) {
+			System.out.println("This song artist is not in the library");
+		}
+		else {
+			for (Song song: songList) {
+				song.printAllDetails();
+				System.out.println(); // so there is a space between each song
+			}
+		}
+	}
+	
+	public void searchAlbumByTitle(String title) {
+		ArrayList<Album> albumList = library.searchAlbumByTitle(title);
+		
+		if (albumList.size() == 0) {
+			System.out.println("This album title is not in the library");
+		}
+		else {
+			for (Album alb: albumList) {
+				alb.printAlbumDetails();
+				System.out.println(); // so there is a space between each album
+			}
+		}
+	}
+	
+	public void searchAlbumByArtist(String artist) {
+		ArrayList<Album> albumList = library.searchAlbumByArtist(artist);
+		
+		if (albumList.size() == 0) {
+			System.out.println("This album artist is not in the library");
+		}
+		else {
+			for (Album alb : albumList) {
+				alb.printAlbumDetails();
+				System.out.println(); // so there is a space between each album
+			}
+		}
+	}
+	
+	public void favoriteSong(String title) {
+		Scanner scanner = new Scanner(System.in);
+		ArrayList<Song> songList = library.searchSongByTitle(title);
+		
+		if (songList.size() == 0) {
+			System.out.println("This song title is not in the library");
+		}
+		
+		else if (songList.size() == 1){
+			library.favoriteSong(songList.getFirst());;
+		}
+		
+		else {
+			System.out.println("There are multiple songs with this name in the library");
+			for (Song s: songList) {
+				s.printAllDetails();
+			}
+			
+			System.out.println("Would you like to favorite all songs? (yes or no)");
+	    	
+	    	int count = 0;
+	    	while(count < 1) {
+		    	String choice = scanner.nextLine();
+		    	
+		    	if(choice.equalsIgnoreCase("yes")) {
+		    		for (Song s: songList) {
+						library.favoriteSong(s);
+					}
+		    		System.out.println("All songs favorited");
+		    		count++;
+		    	}
+		    	
+		    	else if (choice.equalsIgnoreCase("no")) {
+		    		System.out.println("Which artist's song would you like to favorite?");
+		    		String artistName = scanner.nextLine();
+		    		boolean f = false;
+		    		for (Song s: songList) {
+		    			if(s.getArtist().equalsIgnoreCase(artistName)){
+		    				library.favoriteSong(s);
+		    				System.out.println("Song favorited");
+		    				f = true;
+		    			}
+		    		}
+		    		
+		    		if(f == false) {
+		    			System.out.println("None of the chosen songs were written by this artist");
+		    		}
+		    		count++;
+		    	}
+		    	
+		    	else {
+		    		System.out.println("You typed neither yes nor no, please type either yes or no");
+		    	}
+	    	}
+		}
+	}
+	
+	public void rateSong(String title, int rating) {
+		Scanner scanner = new Scanner(System.in);
+		ArrayList<Song> songList = library.searchSongByTitle(title);
+		
+		if (songList.size() == 0) {
+			System.out.println("This song title is not in the library");
+		}
+		
+		else if (songList.size() == 1){
+			library.rateSong(songList.getFirst(), rating);
+		}
+		
+		else {
+			System.out.println("There are multiple songs with this name in the library");
+			for (Song s: songList) {
+				s.printAllDetails();
+			}
+			
+			System.out.println("Would you like to rate all songs? (yes or no)");
+	    	
+	    	int count = 0;
+	    	while(count < 1) {
+		    	String choice = scanner.nextLine();
+		    	
+		    	if(choice.equalsIgnoreCase("yes")) {
+		    		for (Song s: songList) {
+		    			System.out.println("Song to be rated: ");
+		    			s.printAllDetails();
+						library.rateSong(s, rating);;
+					}
+		    		System.out.println("All songs rated");
+		    		count++;
+		    	}
+		    	
+		    	else if (choice.equalsIgnoreCase("no")) {
+		    		System.out.println("Which artist's song would you like to rate?");
+		    		String artistName = scanner.nextLine();
+		    		boolean f = false;
+		    		for (Song s: songList) {
+		    			if(s.getArtist().equalsIgnoreCase(artistName)){
+		    				library.rateSong(s, rating);;
+		    				System.out.println("Song rated");
+		    				f = true;
+		    			}
+		    		}
+		    		
+		    		if(f == false) {
+		    			System.out.println("None of the chosen songs were written by this artist");
+		    		}
+		    		count++;
+		    	}
+		    	
+		    	else {
+		    		System.out.println("You typed neither yes nor no, please type either yes or no");
+		    	}
+	    	}
+		}
+	}
+	
+	public void getSongTitles(){
+		ArrayList<String> titles = library.getSongTitles();
+		
+		for (String title: titles) {
+			System.out.println(title);
+			System.out.println(); // for a space between each song
+		}
+	}
+	
+	public void getArtists(){
+		ArrayList<String> artists = library.getArtists();
+		
+		for (String artist: artists) {
+			System.out.println(artist);
+			System.out.println(); // for a space between artists
+			}
+	}
 
+	
+	public void getAlbumTitles(){
+		ArrayList<String> albumTitles = library.getAlbumTitles();
+		
+		for (String title: albumTitles) {
+			System.out.println(title);
+			System.out.println(); // for a space between each album
+		}
+	}
+	
+	public void getPlayLists(){
+		ArrayList<String> pls = library.getPlayLists();
+		
+		for (String title: pls) {
+			System.out.println(title);
+			System.out.println(); // for a space between each play list
+		}
+	}
+	
+	public ArrayList<String> getFavoriteSongs(){
+		ArrayList<String> titles = library.getFavoriteSongs();
+		
+		for (String title: titles) {
+			System.out.println(title);
+			System.out.println(); // for a space between each song
+		}
+		
+		return titles;
+	}
 }
