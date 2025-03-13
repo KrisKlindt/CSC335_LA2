@@ -189,7 +189,7 @@ public class User {
 	            	content = "Album," + a.getTitle() + "," + a.getArtist() + "," + a.getGenre() + "," + a.getYear() + ",";
 	            	// go through the song in each album, add title to content
 	            	for (Song s: a.getAlbum()) {
-	            		content.concat(s.getTitle() + "_" + s.getArtist() + ","); // need both title and artist to ensure uniqueness
+	            		content = content + s.getTitle() + "_" + s.getArtist() + ","; // need both title and artist to ensure uniqueness
 	            	}
 	            	content = content.substring(0, content.length()-1); // gets rid of last ,
 	            	writer.write(content);
@@ -202,7 +202,7 @@ public class User {
 	            	content = "PlayList," + p.getTitle() + ",";
 	            	// go through the song in each album, add title to content
 	            	for (Song s: p.getPlayList()) {
-	            		content.concat(s.getTitle() + "_" + s.getArtist() + ","); // need both title and artist to ensure uniqueness
+	            		content = content + s.getTitle() + "_" + s.getArtist() + ","; // need both title and artist to ensure uniqueness
 	            	}
 	            	content = content.substring(0, content.length()-1); // gets rid of last ,
 	            	writer.write(content);

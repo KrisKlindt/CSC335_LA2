@@ -413,7 +413,15 @@ public class View {
 				ArrayList<Album> alb = mStore.searchAlbumByTitle(albTitle, false);
 				for (Album a : alb) {
 					if (a.getArtist().equals(songs.getFirst().getArtist())) {
-						u.library.addAlbum(a);
+						if(u.library.getAlbums().contains(a)) {
+							// album exists in library, just add song to it
+							u.library.searchAlbumByTitle(a.getTitle()).getFirst().addSong(songs.getFirst());
+						}
+						else {
+							// album does not exist in library, create empty album and add song to it
+							u.library.addAlbum(new Album(a.getTitle(), a.getArtist(), a.getGenre(), a.getYear()));
+							u.library.searchAlbumByTitle(a.getTitle()).getFirst().addSong(songs.getFirst());
+						}
 					}
 				}
 			}
@@ -438,7 +446,15 @@ public class View {
 							ArrayList<Album> alb = mStore.searchAlbumByTitle(albTitle, false);
 							for (Album a :alb) {
 								if (a.getArtist().equals(s.getArtist())) {
-									u.library.addAlbum(a);
+									if(u.library.getAlbums().contains(a)) {
+										// album exists in library, just add song to it
+										u.library.searchAlbumByTitle(a.getTitle()).getFirst().addSong(s);
+									}
+									else {
+										// album does not exist in library, create empty album and add song to it
+										u.library.addAlbum(new Album(a.getTitle(), a.getArtist(), a.getGenre(), a.getYear()));
+										u.library.searchAlbumByTitle(a.getTitle()).getFirst().addSong(s);
+									}
 								}
 							}
 			    		}
@@ -457,7 +473,15 @@ public class View {
 								ArrayList<Album> alb = mStore.searchAlbumByTitle(albTitle, false);
 								for (Album a : alb) {
 									if (a.getArtist().equals(s.getArtist())) {
-										u.library.addAlbum(a);
+										if(u.library.getAlbums().contains(a)) {
+											// album exists in library, just add song to it
+											u.library.searchAlbumByTitle(a.getTitle()).getFirst().addSong(s);
+										}
+										else {
+											// album does not exist in library, create empty album and add song to it
+											u.library.addAlbum(new Album(a.getTitle(), a.getArtist(), a.getGenre(), a.getYear()));
+											u.library.searchAlbumByTitle(a.getTitle()).getFirst().addSong(s);
+										}
 									}
 								}
 			    				flag = true;
@@ -582,6 +606,21 @@ public class View {
 				else if (song.size() == 1) {
 					u.library.addSongToPlayList(p, song.getFirst()); // adds to the PlayList
 					u.library.addSong(song.get(0)); // adds to the library song list, if not already in there
+					String albTitle = song.getFirst().getAlbum();
+					ArrayList<Album> alb = mStore.searchAlbumByTitle(albTitle, false);
+					for (Album a : alb) {
+						if (a.getArtist().equals(song.getFirst().getArtist())) {
+							if(u.library.getAlbums().contains(a)) {
+								// album exists in library, just add song to it
+								u.library.searchAlbumByTitle(a.getTitle()).getFirst().addSong(song.getFirst());
+							}
+							else {
+								// album does not exist in library, create empty album and add song to it
+								u.library.addAlbum(new Album(a.getTitle(), a.getArtist(), a.getGenre(), a.getYear()));
+								u.library.searchAlbumByTitle(a.getTitle()).getFirst().addSong(song.getFirst());
+							}
+						}
+					}
 					System.out.println("Song added to PlayList and library");
 				}
 					
@@ -601,6 +640,21 @@ public class View {
 					   		for (Song s: song) {
 								u.library.addSongToPlayList(p, s); // adds to the PlayList
 								u.library.addSong(s); // adds to the library, if not already there
+								String albTitle = s.getAlbum();
+								ArrayList<Album> alb = mStore.searchAlbumByTitle(albTitle, false);
+								for (Album a : alb) {
+									if (a.getArtist().equals(s.getArtist())) {
+										if(u.library.getAlbums().contains(a)) {
+											// album exists in library, just add song to it
+											u.library.searchAlbumByTitle(a.getTitle()).getFirst().addSong(s);
+										}
+										else {
+											// album does not exist in library, create empty album and add song to it
+											u.library.addAlbum(new Album(a.getTitle(), a.getArtist(), a.getGenre(), a.getYear()));
+											u.library.searchAlbumByTitle(a.getTitle()).getFirst().addSong(s);
+										}
+									}
+								}
 							}
 				    		System.out.println("All songs added to the PlayList and library");
 				    		count++;
@@ -614,6 +668,21 @@ public class View {
 				    			if(s.getArtist().equalsIgnoreCase(artistName)){
 				    				u.library.addSongToPlayList(p, s); // adds to the PlayList
 				    				u.library.addSong(s); // adds to the library, if not already there
+				    				String albTitle = s.getAlbum();
+									ArrayList<Album> alb = mStore.searchAlbumByTitle(albTitle, false);
+									for (Album a : alb) {
+										if (a.getArtist().equals(s.getArtist())) {
+											if(u.library.getAlbums().contains(a)) {
+												// album exists in library, just add song to it
+												u.library.searchAlbumByTitle(a.getTitle()).getFirst().addSong(s);
+											}
+											else {
+												// album does not exist in library, create empty album and add song to it
+												u.library.addAlbum(new Album(a.getTitle(), a.getArtist(), a.getGenre(), a.getYear()));
+												u.library.searchAlbumByTitle(a.getTitle()).getFirst().addSong(s);
+											}
+										}
+									}
 				    				System.out.println("Song added to the Playlist and library");
 					    			f = true;
 					    		}
