@@ -1,16 +1,19 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class LibraryModel {
 	private ArrayList<Song> songs;
 	private ArrayList<Album> albums;
 	private ArrayList<PlayList> playLists;
+	private LinkedList<Song> recentSongs;
 	
 	public LibraryModel() {
 		this.albums = new ArrayList<Album>();
 		this.playLists = new ArrayList<PlayList>();
 		this.songs = new ArrayList<Song>();
+		this.recentSongs = new LinkedList<Song>();
 	}
 	
 	public void createPlayList(String title) {
@@ -186,4 +189,21 @@ public class LibraryModel {
 	public void rateSong(Song s, int rating) {
 		s.rateSong(rating);
 	}
+	
+	public void playSong(Song s) {
+		s.play();
+		updateRecentSongs(s);
+	}
+	
+	private void updateRecentSongs(Song s) {
+		recentSongs.remove(s); // removes song if already in list to maintain order
+		recentSongs.addFirst(s); 
+		if (recentSongs.size() > 10) { // ensure only 10 songs are kept
+            recentSongs.removeLast();
+        }
+	}
+	
+	public LinkedList<Song> getRecentSongs() {
+        return new LinkedList<>(recentSongs);
+    }
 }
