@@ -4,6 +4,7 @@ import model.*;
 import database.*;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -175,6 +176,7 @@ public class View {
 			System.out.println("15. Get the titles of the albums in your library");
 			System.out.println("16. Get the playlists in your library");
 			System.out.println("17. Get your favorite songs in your library");
+			System.out.println("18. Play a song");
 			
 			System.out.println("Please enter the integer of the command you'd like to use: ");
 			System.out.println("Or enter a negative integer to exit");
@@ -322,6 +324,21 @@ public class View {
 					break;
 				}
 			}
+			else if (command == 18) {
+				System.out.println("What's the title of the song you'd like to play?");
+				String title = scanner.nextLine();
+				playSong(title);
+				if(!(exit())) {
+					break;
+				}
+			}
+			else if (command == 19) {
+				System.out.println("Here are your 10 most recently played songs: ");
+				getRecentSongs();
+				if(!(exit())) {
+					break;
+				}
+			}
 			else {
 				System.out.println("Invalid input. Please choose an integer 1 - 17");
 				System.out.println();
@@ -392,6 +409,13 @@ public class View {
 			if (songs.size() == 1) {
 				u.library.addSong(songs.getFirst());
 				System.out.println("Song added to the library");
+				String albTitle = songs.getFirst().getAlbum();
+				ArrayList<Album> alb = mStore.searchAlbumByTitle(albTitle, false);
+				for (Album a : alb) {
+					if (a.getArtist().equals(songs.getFirst().getArtist())) {
+						u.library.addAlbum(a);
+					}
+				}
 			}
 			
 			else {
@@ -410,6 +434,13 @@ public class View {
 			    	if(choice.equalsIgnoreCase("yes")) {
 			    		for (Song s : songs) {
 			    			u.library.addSong(s);
+			    			String albTitle = s.getAlbum();
+							ArrayList<Album> alb = mStore.searchAlbumByTitle(albTitle, false);
+							for (Album a :alb) {
+								if (a.getArtist().equals(s.getArtist())) {
+									u.library.addAlbum(a);
+								}
+							}
 			    		}
 			    		System.out.println("All songs added to the library");
 			    		count++;
@@ -422,6 +453,13 @@ public class View {
 			    		for (Song s: songs) {
 			    			if(s.getArtist().equalsIgnoreCase(artistName)){
 			    				u.library.addSong(s);
+				    			String albTitle = s.getAlbum();
+								ArrayList<Album> alb = mStore.searchAlbumByTitle(albTitle, false);
+								for (Album a : alb) {
+									if (a.getArtist().equals(s.getArtist())) {
+										u.library.addAlbum(a);
+									}
+								}
 			    				flag = true;
 			    				System.out.println("Song added to the library");
 			    				break;
@@ -895,14 +933,55 @@ public class View {
 		}
 	}
 	
-	public ArrayList<String> getFavoriteSongs(){
+	public void getFavoriteSongs(){
 		ArrayList<String> titles = u.library.getFavoriteSongs();
 		
 		for (String title: titles) {
 			System.out.println(title);
 			System.out.println(); // for a space between each song
 		}
+	}
+	
+	public void playSong(String title) {
+		Scanner scanner = new Scanner(System.in);
+		ArrayList<Song> songList = u.library.searchSongByTitle(title);
 		
-		return titles;
+		if (songList.size() == 0) {
+			System.out.println("This song title is not in the library");
+		}
+		
+		else if (songList.size() == 1){
+			u.library.playSong(songList.getFirst());
+		}
+		
+		else {
+			System.out.println("There are multiple songs with this name in the library");
+			for (Song s: songList) {
+				s.printAllDetails();
+			}
+		    
+    		System.out.println("Which artist's song would you like to play?");
+    		String artistName = scanner.nextLine();
+    		boolean f = false;
+    		for (Song s: songList) {
+    			if(s.getArtist().equalsIgnoreCase(artistName)){
+    				u.library.playSong(s);
+    				System.out.println("Playing " + s.getTitle());
+    				f = true;
+    			}
+    		}
+		    		
+    		if(f == false) {
+    			System.out.println("None of the chosen songs were written by this artist");
+    		}
+    	}
+	}
+	
+	public void getRecentSongs() {
+		LinkedList<Song> recentSongs = u.library.getRecentSongs();
+		for (Song s: recentSongs) {
+			s.printAllDetails();
+			System.out.println();
+		}
 	}
 }
