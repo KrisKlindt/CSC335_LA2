@@ -26,7 +26,7 @@ public class Album {
 	        this.genre = other.genre;
 	        this.songs = new ArrayList<>();
 	        for (Song s : other.songs) {
-	            this.songs.add(new Song(s.getTitle(), s.getArtist(), s.getAlbum())); // Copy each song
+	            this.songs.add(new Song(s.getTitle(), s.getArtist(), s.getAlbum(), s.getGenre())); // Copy each song
 	        }
 	}
 

@@ -4,14 +4,16 @@ public class Song {
     private String title;
     private String artist;
     private String album;
+    private String genre;
     private boolean favorite;
     private int rating;
     private int plays;
 
-    public Song(String title, String artist, String album) {
+    public Song(String title, String artist, String album, String genre) {
         this.title = title;
         this.artist = artist;
         this.album = album;
+        this.genre = genre;
         this.favorite = false;
         this.plays = 0;
     }
@@ -26,6 +28,10 @@ public class Song {
     
     public String getAlbum() {
     	return album;
+    }
+    
+    public String getGenre() {
+    	return genre;
     }
     
     public boolean getFavorite() {

@@ -43,7 +43,7 @@ public class MusicStore {
             	// go through each album.txt and create a Song object for each song
             	while ((lin = in2.readLine()) != null) {
                     // lin will be the name of a song
-            		Song song = new Song(lin, album.getArtist(), album.getTitle());
+            		Song song = new Song(lin, album.getArtist(), album.getTitle(), album.getGenre());
                     album.addSong(song);
                 }
             	
@@ -67,7 +67,7 @@ public class MusicStore {
 		for (Album album : albums) {
 			ArrayList<Song> songs = album.searchByTitle(title);
 			for (Song s : songs) {
-                songList.add(new Song(s.getTitle(), s.getArtist(), s.getAlbum())); // copy of Song
+                songList.add(new Song(s.getTitle(), s.getArtist(), s.getAlbum(), s.getGenre())); // copy of Song
             }
 		}
 		
@@ -92,7 +92,7 @@ public class MusicStore {
 			if (album.getArtist().equalsIgnoreCase(artist)) {
 				ArrayList<Song> songs = album.getAlbum();
 				for (Song s : songs) {
-	                songList.add(new Song(s.getTitle(), s.getArtist(), s.getAlbum())); // Copy of Song
+	                songList.add(new Song(s.getTitle(), s.getArtist(), s.getAlbum(), s.getGenre())); // Copy of Song
 	            }
 			}
 		}
