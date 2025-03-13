@@ -511,9 +511,19 @@ public class View {
 		}
 		else {
 			if (alb.size() == 1) {
-				u.library.addAlbum(alb.getFirst());
-				for (Song s: alb.get(0).getAlbum()) {
-					u.library.addSong(s);
+				if (u.library.getAlbums().contains(alb.getFirst())) {
+					// album is in library, add all songs not already in the album to it
+					for (Song s: alb.get(0).getAlbum()) {
+						u.library.addSong(s);
+						u.library.searchAlbumByTitle(alb.getFirst().getTitle()).getFirst().addSong(s);
+					}
+				}
+				else {
+					// album not in library, just add whole album
+					u.library.addAlbum(alb.getFirst());
+					for (Song s: alb.getFirst().getAlbum()) {
+						u.library.addSong(s);
+					}
 				}
 				System.out.println("Album added to the library");
 			}
@@ -534,9 +544,19 @@ public class View {
 			    	
 			    	if(choice.equalsIgnoreCase("yes")) {
 			    		for (Album a: alb) {
-			    			u.library.addAlbum(a);
-							for (Song s: a.getAlbum()) {
-								u.library.addSong(s);
+			    			if (u.library.getAlbums().contains(a)) {
+								// album is in library, add all songs not already in the album to it
+								for (Song s: a.getAlbum()) {
+									u.library.addSong(s);
+									u.library.searchAlbumByTitle(a.getTitle()).getFirst().addSong(s);
+								}
+							}
+							else {
+								// album not in library, just add whole album
+								u.library.addAlbum(a);
+								for (Song s: a.getAlbum()) {
+									u.library.addSong(s);
+								}
 							}
 						}
 			    		System.out.println("All albums were added to the library");
@@ -550,11 +570,21 @@ public class View {
 			    		
 			    		for (Album a : alb) {
 			    			if(a.getArtist().equalsIgnoreCase(artistName)){
-			    				u.library.addAlbum(a);
-			    				flag = true;
-			    				for (Song s: a.getAlbum()) {
-			    					u.library.addSong(s);
+			    				if (u.library.getAlbums().contains(a)) {
+			    					// album is in library, add all songs not already in the album to it
+			    					for (Song s: a.getAlbum()) {
+			    						u.library.addSong(s);
+			    						u.library.searchAlbumByTitle(a.getTitle()).getFirst().addSong(s);
+			    					}
 			    				}
+			    				else {
+			    					// album not in library, just add whole album
+			    					u.library.addAlbum(a);
+			    					for (Song s: a.getAlbum()) {
+			    						u.library.addSong(s);
+			    					}
+			    				}
+			    				flag = true;
 			    				System.out.println("Album added to the library");
 			    				break;
 			    			}
