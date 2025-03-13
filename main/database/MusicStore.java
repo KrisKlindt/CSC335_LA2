@@ -66,7 +66,9 @@ public class MusicStore {
 		ArrayList<Song> songList = new ArrayList<Song>();
 		for (Album album : albums) {
 			ArrayList<Song> songs = album.searchByTitle(title);
-			songList.addAll(songs);
+			for (Song s : songs) {
+                songList.add(new Song(s.getTitle(), s.getArtist(), s.getAlbum())); // copy of Song
+            }
 		}
 		
 		if (print) {
@@ -89,7 +91,9 @@ public class MusicStore {
 		for (Album album : albums) {
 			if (album.getArtist().equalsIgnoreCase(artist)) {
 				ArrayList<Song> songs = album.getAlbum();
-				songList.addAll(songs);
+				for (Song s : songs) {
+	                songList.add(new Song(s.getTitle(), s.getArtist(), s.getAlbum())); // Copy of Song
+	            }
 			}
 		}
 		
@@ -112,7 +116,7 @@ public class MusicStore {
 		ArrayList<Album> albumList = new ArrayList<Album>();
 		for (Album album : albums) {
 			if (album.getTitle().equalsIgnoreCase(title)) {
-				albumList.add(album);
+				albumList.add(new Album(album));
 			}
 		}
 		
@@ -135,7 +139,7 @@ public class MusicStore {
 		ArrayList<Album> albumList = new ArrayList<Album>();
 		for (Album album : albums) {
 			if (album.getArtist().equalsIgnoreCase(artist)) {
-				albumList.add(album);
+				albumList.add(new Album(album));
 			}
 		}
 		
