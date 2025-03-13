@@ -102,6 +102,16 @@ public class LibraryModel {
 		return titles;
 	}
 	
+	public ArrayList<Song> getSongs(){
+		ArrayList<Song> sngs = new ArrayList<Song>();
+		
+		for(Song s: songs) {
+			sngs.add(s);
+		}
+		
+		return sngs;
+	}
+	
 	public ArrayList<String> getArtists(){
 		ArrayList<String> artists = new ArrayList<String>();
 		
