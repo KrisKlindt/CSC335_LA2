@@ -1,21 +1,16 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-
-import database.MusicStore;
 
 public class LibraryModel {
 	private ArrayList<Song> songs;
 	private ArrayList<Album> albums;
 	private ArrayList<PlayList> playLists;
-	private MusicStore mStore;
 	
 	public LibraryModel() {
 		this.albums = new ArrayList<Album>();
 		this.playLists = new ArrayList<PlayList>();
 		this.songs = new ArrayList<Song>();
-		this.mStore = new MusicStore();
 	}
 	
 	public void createPlayList(String title) {
@@ -131,6 +126,15 @@ public class LibraryModel {
 		return albumTitles;
 	}
 	
+	public ArrayList<Album> getAlbums(){
+		ArrayList<Album> albs = new ArrayList<Album>();
+		for (Album a: albums) {
+			albs.add(a);
+		}
+		
+		return albs;
+	}
+	
 	public ArrayList<String> getPlayLists(){
 		ArrayList<String> pls = new ArrayList<String>();
 		
@@ -140,6 +144,16 @@ public class LibraryModel {
 		}
 		
 		return pls;
+	}
+	
+	public ArrayList<PlayList> getPLs(){
+		ArrayList<PlayList> pLs = new ArrayList<PlayList>();
+		
+		for (PlayList p: playLists) {
+			pLs.add(p);
+		}
+		
+		return pLs;
 	}
 	
 	public ArrayList<String> getFavoriteSongs(){
