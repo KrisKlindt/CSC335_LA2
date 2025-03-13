@@ -17,6 +17,18 @@ public class Album {
 		this.year = year;
 		this.songs = new ArrayList<>();
 	}
+	
+	// deep copy constructor
+	public Album(Album other) {
+        	this.title = other.title;
+		this.artist = other.artist;
+	        this.year = other.year;
+	        this.genre = other.genre;
+	        this.songs = new ArrayList<>();
+	        for (Song s : other.songs) {
+	            this.songs.add(new Song(s.getTitle(), s.getArtist(), s.getAlbum())); // Copy each song
+	        }
+	}
 
 	public void addSong(Song song) {
 		if (!(songs.contains(song))) {
