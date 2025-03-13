@@ -6,12 +6,14 @@ public class Song {
     private String album;
     private boolean favorite;
     private int rating;
+    private int plays;
 
     public Song(String title, String artist, String album) {
         this.title = title;
         this.artist = artist;
         this.album = album;
         this.favorite = false;
+        this.plays = 0;
     }
 
     public String getTitle() {
@@ -65,5 +67,8 @@ public class Song {
 				((Song)o).album.equals(this.album);
 	}
     
+    public void play() {
+    	this.plays += 1;
+    }
 	// Won't override hashcode, since it is unnecessary for our purposes
 }
