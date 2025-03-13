@@ -11,13 +11,11 @@ import java.util.Base64;
 
 public class View {
 	
-	private LibraryModel library;
 	private MusicStore mStore;
 	private UserRegistry uR;
 	private User u;
 	
 	public View() {
-		this.library = new LibraryModel();
 		this.uR = new UserRegistry();
 		this.mStore = new MusicStore();
 	}
@@ -332,6 +330,7 @@ public class View {
 		}
 		System.out.println("Thank you for using our library!");
 		scanner.close();
+		u.saveUserToFile(); // writes any changes the user made to their library to their file once the program ends
 	}
 	
 	private static boolean exit() {
@@ -372,14 +371,14 @@ public class View {
 
 	public void createPlayList(String title) {
 		// check to see if there is already a PlayList with the same name
-		ArrayList <String> playLists = library.getPlayLists();
+		ArrayList <String> playLists = u.library.getPlayLists();
 		for (String pTitle: playLists) {
 			if (pTitle.equalsIgnoreCase(title)) {
 				System.out.println("There already exists a playlist with this name");
 				return;
 			}
 		}
-		library.createPlayList(title);
+		u.library.createPlayList(title);
 		System.out.println("PlayList added successfully");
 	}
 	
@@ -391,7 +390,7 @@ public class View {
 		
 		else {
 			if (songs.size() == 1) {
-				library.addSong(songs.getFirst());
+				u.library.addSong(songs.getFirst());
 				System.out.println("Song added to the library");
 			}
 			
@@ -410,7 +409,7 @@ public class View {
 			    	
 			    	if(choice.equalsIgnoreCase("yes")) {
 			    		for (Song s : songs) {
-			    			library.addSong(s);
+			    			u.library.addSong(s);
 			    		}
 			    		System.out.println("All songs added to the library");
 			    		count++;
@@ -422,7 +421,7 @@ public class View {
 			    		boolean flag = false;
 			    		for (Song s: songs) {
 			    			if(s.getArtist().equalsIgnoreCase(artistName)){
-			    				library.addSong(s);
+			    				u.library.addSong(s);
 			    				flag = true;
 			    				System.out.println("Song added to the library");
 			    				break;
@@ -450,9 +449,9 @@ public class View {
 		}
 		else {
 			if (alb.size() == 1) {
-				library.addAlbum(alb.getFirst());
+				u.library.addAlbum(alb.getFirst());
 				for (Song s: alb.get(0).getAlbum()) {
-					library.addSong(s);
+					u.library.addSong(s);
 				}
 				System.out.println("Album added to the library");
 			}
@@ -473,9 +472,9 @@ public class View {
 			    	
 			    	if(choice.equalsIgnoreCase("yes")) {
 			    		for (Album a: alb) {
-			    			library.addAlbum(a);
+			    			u.library.addAlbum(a);
 							for (Song s: a.getAlbum()) {
-								library.addSong(s);
+								u.library.addSong(s);
 							}
 						}
 			    		System.out.println("All albums were added to the library");
@@ -489,10 +488,10 @@ public class View {
 			    		
 			    		for (Album a : alb) {
 			    			if(a.getArtist().equalsIgnoreCase(artistName)){
-			    				library.addAlbum(a);
+			    				u.library.addAlbum(a);
 			    				flag = true;
 			    				for (Song s: a.getAlbum()) {
-			    					library.addSong(s);
+			    					u.library.addSong(s);
 			    				}
 			    				System.out.println("Album added to the library");
 			    				break;
@@ -514,7 +513,7 @@ public class View {
 	}
 	
 	public void searchPlayList(String title) {
-		PlayList p = library.searchPlayList(title);
+		PlayList p = u.library.searchPlayList(title);
 		
 		if (p == null) {
 			System.out.println("There is no playlist in the library with this name");
@@ -528,7 +527,7 @@ public class View {
 		Scanner scanner = new Scanner(System.in);
 		
 		boolean flag;
-		PlayList p = library.searchPlayList(pLTitle);
+		PlayList p = u.library.searchPlayList(pLTitle);
 		if (p != null) {
 			flag = true;
 		}
@@ -543,8 +542,8 @@ public class View {
 				}
 				
 				else if (song.size() == 1) {
-					library.addSongToPlayList(p, song.getFirst()); // adds to the PlayList
-					library.addSong(song.get(0)); // adds to the library song list, if not already in there
+					u.library.addSongToPlayList(p, song.getFirst()); // adds to the PlayList
+					u.library.addSong(song.get(0)); // adds to the library song list, if not already in there
 					System.out.println("Song added to PlayList and library");
 				}
 					
@@ -562,8 +561,8 @@ public class View {
 					    	
 					    if(choice.equalsIgnoreCase("yes")) {
 					   		for (Song s: song) {
-								library.addSongToPlayList(p, s); // adds to the PlayList
-								library.addSong(s); // adds to the library, if not already there
+								u.library.addSongToPlayList(p, s); // adds to the PlayList
+								u.library.addSong(s); // adds to the library, if not already there
 							}
 				    		System.out.println("All songs added to the PlayList and library");
 				    		count++;
@@ -575,8 +574,8 @@ public class View {
 					   		boolean f = false;
 					   		for (Song s: song) {
 				    			if(s.getArtist().equalsIgnoreCase(artistName)){
-				    				library.addSongToPlayList(p, s); // adds to the PlayList
-				    				library.addSong(s); // adds to the library, if not already there
+				    				u.library.addSongToPlayList(p, s); // adds to the PlayList
+				    				u.library.addSong(s); // adds to the library, if not already there
 				    				System.out.println("Song added to the Playlist and library");
 					    			f = true;
 					    		}
@@ -605,7 +604,7 @@ public class View {
 		Scanner scanner = new Scanner(System.in);
 		
 		boolean flag;
-		PlayList p = library.searchPlayList(pLTitle);
+		PlayList p = u.library.searchPlayList(pLTitle);
 		if (p != null) {
 			flag = true;
 		}
@@ -628,7 +627,7 @@ public class View {
 				}
 				
 				if (song.size() == 1) {
-					library.removeSongFromPlayList(p, song.getFirst());
+					u.library.removeSongFromPlayList(p, song.getFirst());
 					System.out.println("Song removed from the PlayList.");
 				}
 				
@@ -650,7 +649,7 @@ public class View {
 				    	
 				    	if(choice.equalsIgnoreCase("yes")) {
 				    		for (Song s: song) {
-								library.removeSongFromPlayList(p, s); // removes from the PlayList
+								u.library.removeSongFromPlayList(p, s); // removes from the PlayList
 							}
 				    		System.out.println("All songs removed from the PlayList");
 				    		count++;
@@ -662,7 +661,7 @@ public class View {
 				    		boolean f = false;
 				    		for (Song s: song) {
 				    			if(s.getArtist().equalsIgnoreCase(artistName)){
-				    				library.removeSongFromPlayList(p, s); // removes from the PlayList
+				    				u.library.removeSongFromPlayList(p, s); // removes from the PlayList
 				    				System.out.println("Song removed from the Playlist");
 				    				f = true;
 				    			}
@@ -745,14 +744,14 @@ public class View {
 	
 	public void favoriteSong(String title) {
 		Scanner scanner = new Scanner(System.in);
-		ArrayList<Song> songList = library.searchSongByTitle(title);
+		ArrayList<Song> songList = u.library.searchSongByTitle(title);
 		
 		if (songList.size() == 0) {
 			System.out.println("This song title is not in the library");
 		}
 		
 		else if (songList.size() == 1){
-			library.favoriteSong(songList.getFirst());;
+			u.library.favoriteSong(songList.getFirst());;
 		}
 		
 		else {
@@ -769,7 +768,7 @@ public class View {
 		    	
 		    	if(choice.equalsIgnoreCase("yes")) {
 		    		for (Song s: songList) {
-						library.favoriteSong(s);
+						u.library.favoriteSong(s);
 					}
 		    		System.out.println("All songs favorited");
 		    		count++;
@@ -781,7 +780,7 @@ public class View {
 		    		boolean f = false;
 		    		for (Song s: songList) {
 		    			if(s.getArtist().equalsIgnoreCase(artistName)){
-		    				library.favoriteSong(s);
+		    				u.library.favoriteSong(s);
 		    				System.out.println("Song favorited");
 		    				f = true;
 		    			}
@@ -802,14 +801,14 @@ public class View {
 	
 	public void rateSong(String title, int rating) {
 		Scanner scanner = new Scanner(System.in);
-		ArrayList<Song> songList = library.searchSongByTitle(title);
+		ArrayList<Song> songList = u.library.searchSongByTitle(title);
 		
 		if (songList.size() == 0) {
 			System.out.println("This song title is not in the library");
 		}
 		
 		else if (songList.size() == 1){
-			library.rateSong(songList.getFirst(), rating);
+			u.library.rateSong(songList.getFirst(), rating);
 		}
 		
 		else {
@@ -828,7 +827,7 @@ public class View {
 		    		for (Song s: songList) {
 		    			System.out.println("Song to be rated: ");
 		    			s.printAllDetails();
-						library.rateSong(s, rating);;
+						u.library.rateSong(s, rating);;
 					}
 		    		System.out.println("All songs rated");
 		    		count++;
@@ -840,7 +839,7 @@ public class View {
 		    		boolean f = false;
 		    		for (Song s: songList) {
 		    			if(s.getArtist().equalsIgnoreCase(artistName)){
-		    				library.rateSong(s, rating);;
+		    				u.library.rateSong(s, rating);;
 		    				System.out.println("Song rated");
 		    				f = true;
 		    			}
@@ -860,7 +859,7 @@ public class View {
 	}
 	
 	public void getSongTitles(){
-		ArrayList<String> titles = library.getSongTitles();
+		ArrayList<String> titles = u.library.getSongTitles();
 		
 		for (String title: titles) {
 			System.out.println(title);
@@ -869,7 +868,7 @@ public class View {
 	}
 	
 	public void getArtists(){
-		ArrayList<String> artists = library.getArtists();
+		ArrayList<String> artists = u.library.getArtists();
 		
 		for (String artist: artists) {
 			System.out.println(artist);
@@ -879,7 +878,7 @@ public class View {
 
 	
 	public void getAlbumTitles(){
-		ArrayList<String> albumTitles = library.getAlbumTitles();
+		ArrayList<String> albumTitles = u.library.getAlbumTitles();
 		
 		for (String title: albumTitles) {
 			System.out.println(title);
@@ -888,7 +887,7 @@ public class View {
 	}
 	
 	public void getPlayLists(){
-		ArrayList<String> pls = library.getPlayLists();
+		ArrayList<String> pls = u.library.getPlayLists();
 		
 		for (String title: pls) {
 			System.out.println(title);
@@ -897,7 +896,7 @@ public class View {
 	}
 	
 	public ArrayList<String> getFavoriteSongs(){
-		ArrayList<String> titles = library.getFavoriteSongs();
+		ArrayList<String> titles = u.library.getFavoriteSongs();
 		
 		for (String title: titles) {
 			System.out.println(title);

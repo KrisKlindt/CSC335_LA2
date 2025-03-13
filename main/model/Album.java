@@ -19,7 +19,9 @@ public class Album {
 	}
 
 	public void addSong(Song song) {
-		songs.add(song);
+		if (!(songs.contains(song))) {
+			songs.add(song);
+		}
 	}
 	
 	public String getTitle() {
@@ -28,6 +30,14 @@ public class Album {
 	
 	public String getArtist() {
 		return artist;
+	}
+	
+	public String getGenre() {
+		return genre;
+	}
+	
+	public String getYear() {
+		return year;
 	}
 	
 	public ArrayList<Song> getAlbum(){
@@ -62,4 +72,17 @@ public class Album {
 		}
 		return foundsongs;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o == null) return false;
+		if(o == this) return true;
+		if(o.getClass() != this.getClass()) return false;
+		return ((Album)o).title.equals(this.title) && 
+				((Album)o).artist.equals(this.artist)&&
+				((Album)o).genre.equals(this.genre)&&
+				((Album)o).year.equals(this.year);
+	}
+	
+	// Won't override hashcode, since it is unnecessary for our purposes
 }

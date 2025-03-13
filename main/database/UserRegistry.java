@@ -39,9 +39,6 @@ public class UserRegistry {
             	User u = new User(uName);
             	// calls the special constructor that reads from the file
             	
-            	//String filepath = "./main/database/albums/" + uName + "_" + u.getSaltString() + ".txt";
-            	// save for use later
-            	
             	Users.put(uName, u);
             }
             

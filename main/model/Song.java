@@ -1,5 +1,4 @@
 package model;
-import java.util.Scanner;
 
 public class Song {
     private String title;
@@ -56,4 +55,15 @@ public class Song {
         System.out.println("Album: " + album);
     }
 
+    @Override
+	public boolean equals(Object o) {
+		if(o == null) return false;
+		if(o == this) return true;
+		if(o.getClass() != this.getClass()) return false;
+		return ((Song)o).title.equals(this.title) && 
+				((Song)o).artist.equals(this.artist)&&
+				((Song)o).album.equals(this.album);
+	}
+    
+	// Won't override hashcode, since it is unnecessary for our purposes
 }

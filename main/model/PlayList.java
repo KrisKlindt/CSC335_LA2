@@ -21,7 +21,9 @@ public class PlayList {
     }
     
     public void addSong(Song song) {
-        songs.add(song);
+    	if (!(songs.contains(song))) {
+            songs.add(song);
+    	}
     }
     
     public void removeSong(Song song) {
