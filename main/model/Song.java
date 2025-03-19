@@ -34,13 +34,21 @@ public class Song {
     	return genre;
     }
     
+    public int getRating() {
+    	return rating;
+    }
+    
     public boolean getFavorite() {
     	return favorite;
     }
     
-        public void rateSong(int rating) {
-    	this.rating = rating;
-    	this.favorite = (rating == 5);
+    public int getPlays() {
+    	return plays;
+    }
+    
+    public void rateSong(int rating) {
+		this.rating = rating;
+		this.favorite = (rating == 5);
     }
     
     public void markAsFavorite() {
@@ -76,5 +84,6 @@ public class Song {
     public void play() {
     	this.plays += 1;
     }
+    
 	// Won't override hashcode, since it is unnecessary for our purposes
 }

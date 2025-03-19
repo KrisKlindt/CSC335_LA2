@@ -177,6 +177,9 @@ public class View {
 			System.out.println("16. Get the playlists in your library");
 			System.out.println("17. Get your favorite songs in your library");
 			System.out.println("18. Play a song");
+			System.out.println("19. Get your 10 most recently played songs");
+			System.out.println("20. Get your top 10 most played songs.");
+			System.out.println("21. Search for a song by the genre.");
 			
 			System.out.println("Please enter the integer of the command you'd like to use: ");
 			System.out.println("Or enter a negative integer to exit");
@@ -335,6 +338,21 @@ public class View {
 			else if (command == 19) {
 				System.out.println("Here are your 10 most recently played songs: ");
 				getRecentSongs();
+				if(!(exit())) {
+					break;
+				}
+			}
+			else if (command == 20) {
+				System.out.println("Here are your top 10 most played songs: ");
+				getTop10MostPlayedSongs();
+				if(!(exit())) {
+					break;
+				}
+			}
+			else if (command == 21) {
+				System.out.println("What genre would you like to search for? ");
+				String genre = scanner.nextLine();
+				searchSongByGenre(genre);
 				if(!(exit())) {
 					break;
 				}
@@ -997,47 +1015,67 @@ public class View {
 	
 	public void getSongTitles(){
 		ArrayList<String> titles = u.library.getSongTitles();
-		
-		for (String title: titles) {
-			System.out.println(title);
-			System.out.println(); // for a space between each song
+		if (titles.size() == 0) {
+			System.out.println("There are no songs in your library. Add some!");
+		}
+		else {
+			for (String title: titles) {
+				System.out.println(title);
+				System.out.println(); // for a space between each song
+			}
 		}
 	}
 	
 	public void getArtists(){
 		ArrayList<String> artists = u.library.getArtists();
-		
-		for (String artist: artists) {
-			System.out.println(artist);
-			System.out.println(); // for a space between artists
+		if (artists.size() == 0) {
+			System.out.println("There are no artists in your library. Add some songs!");
+		}
+		else {
+			for (String artist: artists) {
+				System.out.println(artist);
+				System.out.println(); // for a space between artists
 			}
+		}
 	}
 
 	
 	public void getAlbumTitles(){
 		ArrayList<String> albumTitles = u.library.getAlbumTitles();
-		
-		for (String title: albumTitles) {
-			System.out.println(title);
-			System.out.println(); // for a space between each album
+		if (albumTitles.size() == 0) {
+			System.out.println("There are no albums in your library. Add some songs!");
+		}
+		else {
+			for (String title: albumTitles) {
+				System.out.println(title);
+				System.out.println(); // for a space between each album
+			}
 		}
 	}
 	
 	public void getPlayLists(){
 		ArrayList<String> pls = u.library.getPlayLists();
-		
-		for (String title: pls) {
-			System.out.println(title);
-			System.out.println(); // for a space between each play list
+		if (pls.size() == 0) {
+			System.out.println("There are no playlists in your library. Make some!");
+		}
+		else {
+			for (String title: pls) {
+				System.out.println(title);
+				System.out.println(); // for a space between each play list
+			}
 		}
 	}
 	
 	public void getFavoriteSongs(){
 		ArrayList<String> titles = u.library.getFavoriteSongs();
-		
-		for (String title: titles) {
-			System.out.println(title);
-			System.out.println(); // for a space between each song
+		if (titles.size() == 0) {
+			System.out.println("There are no favorites in your library. Mark some songs are your favorite!");
+		}
+		else {
+			for (String title: titles) {
+				System.out.println(title);
+				System.out.println(); // for a space between each song
+			}
 		}
 	}
 	
@@ -1078,9 +1116,40 @@ public class View {
 	
 	public void getRecentSongs() {
 		LinkedList<Song> recentSongs = u.library.getRecentSongs();
-		for (Song s: recentSongs) {
-			s.printAllDetails();
-			System.out.println();
+		if (recentSongs.size() == 0) {
+			System.out.println("You haven't recently played anything. Play something!");
+		}
+		else {
+			for (Song s: recentSongs) {
+				s.printAllDetails();
+				System.out.println();
+			}
+		}
+	}
+	
+	public void getTop10MostPlayedSongs() {
+		ArrayList<Song> mostPlayed = u.library.getTop10MostPlayedSongs();
+		if (mostPlayed.size() == 0) {
+			System.out.println("You haven't played any songs in your library. Play some!");
+		}
+		else {
+			for (Song s: mostPlayed) {
+				s.printAllDetails();
+				System.out.println();
+			}
+		}
+	}
+	
+	public void searchSongByGenre(String genre) {
+		ArrayList<Song> songs = u.library.searchSongByGenre(genre);
+		if (songs.size() == 0) {
+			System.out.println("There are no songs of this genre in your library. Add some!");
+		}
+		else {
+			for (Song s : songs) {
+				s.printAllDetails();
+				System.out.println();
+			}
 		}
 	}
 }
