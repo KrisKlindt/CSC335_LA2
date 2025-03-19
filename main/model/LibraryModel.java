@@ -208,7 +208,7 @@ public class LibraryModel {
     }
 	
 	public ArrayList<Song> getTop10MostPlayedSongs() {
-	    ArrayList<Song> topSongs = new ArrayList<>(songs);
+	    ArrayList<Song> topSongs = new ArrayList<Song>(songs);
 	    topSongs.sort((s1, s2) -> Integer.compare(s2.getPlays(), s1.getPlays())); // sort in descending order
 	    return new ArrayList<>(topSongs.subList(0, Math.min(10, topSongs.size()))); // get top 10 or less
 	}
@@ -222,5 +222,58 @@ public class LibraryModel {
 		}
 		
 		return songList;
+	}
+	
+	public ArrayList<Song> getSongsSortedByTitle() {
+	    ArrayList<Song> sortedSongs = new ArrayList<Song>(songs);
+	    sortedSongs.sort((s1, s2) -> s1.getTitle().compareToIgnoreCase(s2.getTitle()));
+	    return sortedSongs;
+	}
+	
+	public ArrayList<Song> getSongsSortedByArtist() {
+	    ArrayList<Song> sortedSongs = new ArrayList<Song>(songs);
+	    sortedSongs.sort((s1, s2) -> s1.getArtist().compareToIgnoreCase(s2.getArtist()));
+	    return sortedSongs;
+	}
+	
+	public ArrayList<Song> getSongsSortedByRating() {
+	    ArrayList<Song> sortedSongs = new ArrayList<Song>();
+	    for (Song s : songs) {
+	        if (s.getRating() > 0) {
+	            sortedSongs.add(s);
+	        }
+	    }
+	    sortedSongs.sort((s1, s2) -> Integer.compare(s1.getRating(), s2.getRating()));
+	    return sortedSongs;
+	}
+	
+	public ArrayList<Song> getFavorites(){
+		ArrayList<Song> favs = new ArrayList<Song>();
+		for (Song s : songs) {
+			if(s.getFavorite()) {
+				favs.add(s);
+			}
+		}
+		return favs;
+	}
+	
+	public ArrayList<String> getGenres(){
+		ArrayList<String> genres = new ArrayList<String>();
+		for (Song s : songs) {
+			if (!genres.contains(s.getGenre())) {
+				genres.add(s.getGenre());
+			}
+		}
+		return genres;
+	}
+	
+	public ArrayList<Song> getTopRated(){
+		ArrayList<Song> topRated = new ArrayList<Song>();
+		for (Song s : songs) {
+			if (s.getRating() >= 4) {
+				topRated.add(s);
+			}
+		}
+		return topRated;
 	}
 }

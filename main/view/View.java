@@ -158,6 +158,8 @@ public class View {
 		System.out.println("Welcome "+ u.getUName().replace("_", " ") +"!\nThis is your music library where you can add songs and Albums that are available within our store!");
 		int command = 0;
 		while (command < 18) {
+			createFavoriteSongsPlayList();
+			createGenresPlayLists();
 			System.out.println("Here are the features available to you.");
 			System.out.println("1. Create a playlist");
 			System.out.println("2. Add a song");
@@ -180,6 +182,7 @@ public class View {
 			System.out.println("19. Get your 10 most recently played songs");
 			System.out.println("20. Get your top 10 most played songs.");
 			System.out.println("21. Search for a song by the genre.");
+			System.out.println("22. Sort the songs in your library.");
 			
 			System.out.println("Please enter the integer of the command you'd like to use: ");
 			System.out.println("Or enter a negative integer to exit");
@@ -353,6 +356,28 @@ public class View {
 				System.out.println("What genre would you like to search for? ");
 				String genre = scanner.nextLine();
 				searchSongByGenre(genre);
+				if(!(exit())) {
+					break;
+				}
+			}
+			else if (command == 21) {
+				System.out.println("How would you like them sorted? Title, artist, or rating?");
+				String sorting = scanner.nextLine();
+				if (sorting.equalsIgnoreCase("title")) {
+					System.out.println("Here are your songs sorted by title: ");
+					getSongsSortedByTitle();
+				}
+				else if (sorting.equalsIgnoreCase("artist")) {
+					System.out.println("Here are your songs sorted by artist: ");
+					getSongsSortedByArtist();
+				}
+				else if (sorting.equalsIgnoreCase("rating")) {
+					System.out.println("Here are your songs sorted by rating: ");
+					getSongsSortedByRating();
+				}
+				else {
+					System.out.println("You didn't enter any of the given ways to sort.");
+				}
 				if(!(exit())) {
 					break;
 				}
@@ -1150,6 +1175,77 @@ public class View {
 				s.printAllDetails();
 				System.out.println();
 			}
+		}
+	}
+	
+	public void getSongsSortedByTitle() {
+		ArrayList<Song> songs = u.library.getSongsSortedByTitle();
+		if (songs.size() == 0) {
+			System.out.println("There are no songs in your library. Add some!");
+		}
+		else {
+			for (Song s : songs) {
+				System.out.println(s.getTitle() + " by " + s.getArtist());
+				System.out.println();
+			}
+		}
+	}
+	
+	public void getSongsSortedByArtist() {
+		ArrayList<Song> songs = u.library.getSongsSortedByArtist();
+		if (songs.size() == 0) {
+			System.out.println("There are no songs in your library. Add some!");
+		}
+		else {
+			for (Song s : songs) {
+				System.out.println(s.getArtist() + " - " + s.getTitle());
+				System.out.println();
+			}
+		}
+	}
+	
+	public void getSongsSortedByRating() {
+		ArrayList<Song> songs = u.library.getSongsSortedByRating();
+		if (songs.size() == 0) {
+			System.out.println("There are no rated songs in your library. Rate some!");
+		}
+		else {
+			for (Song s : songs) {
+				System.out.println("Rating: " + s.getRating() + "Song: " + s.getTitle() + " by " + s.getArtist());
+				System.out.println();
+			}
+		}
+	}
+	
+	public void createFavoriteSongsPlayList() {
+		ArrayList<Song> favs = u.library.getFavorites();
+		u.library.createPlayList("Favorite Songs");
+		PlayList pl = u.library.searchPlayList("Favorite Songs");
+		for (Song s : favs) {
+			u.library.addSongToPlayList(pl, s);
+		}
+	}
+	
+	public void createGenresPlayLists() {
+		ArrayList<String> genres = u.library.getGenres();
+		for (String genre : genres) {
+	        ArrayList<Song> genreSongs = u.library.searchSongByGenre(genre);
+	        if (genreSongs.size() >= 10) {
+	            u.library.createPlayList(genre);
+	            PlayList pl = u.library.searchPlayList(genre);
+	            for (Song s : genreSongs) {
+	                u.library.addSongToPlayList(pl, s);
+	            }
+	        }
+	    }
+	}
+	
+	public void createTopRatedPlayList() {
+		ArrayList<Song> topRated = u.library.getTopRated();
+		u.library.createPlayList("Top Rated");
+		PlayList pl = u.library.searchPlayList("Top Rated");
+		for (Song s : topRated) {
+			u.library.addSongToPlayList(pl, s);
 		}
 	}
 }
