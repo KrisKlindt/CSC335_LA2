@@ -206,4 +206,21 @@ public class LibraryModel {
 	public LinkedList<Song> getRecentSongs() {
         return new LinkedList<>(recentSongs);
     }
+	
+	public ArrayList<Song> getTop10MostPlayedSongs() {
+	    ArrayList<Song> topSongs = new ArrayList<>(songs);
+	    topSongs.sort((s1, s2) -> Integer.compare(s2.getPlays(), s1.getPlays())); // sort in descending order
+	    return new ArrayList<>(topSongs.subList(0, Math.min(10, topSongs.size()))); // get top 10 or less
+	}
+	
+	public ArrayList<Song> searchSongByGenre(String genre) {
+		ArrayList<Song> songList = new ArrayList<Song>();
+		for (Song s: songs) {
+			if (s.getGenre().equalsIgnoreCase(genre)) {
+				songList.add(s);
+			}
+		}
+		
+		return songList;
+	}
 }
