@@ -7,13 +7,13 @@ public class LibraryModel {
 	private ArrayList<Song> songs;
 	private ArrayList<Album> albums;
 	private ArrayList<PlayList> playLists;
-	private LinkedList<Song> recentSongs;
+	private ArrayList<Song> recentSongs;
 	
 	public LibraryModel() {
 		this.albums = new ArrayList<Album>();
 		this.playLists = new ArrayList<PlayList>();
 		this.songs = new ArrayList<Song>();
-		this.recentSongs = new LinkedList<Song>();
+		this.recentSongs = new ArrayList<Song>();
 	}
 	
 	public void createPlayList(String title) {
@@ -197,14 +197,14 @@ public class LibraryModel {
 	
 	private void updateRecentSongs(Song s) {
 		recentSongs.remove(s); // removes song if already in list to maintain order
-		recentSongs.addFirst(s); 
+		recentSongs.add(0, s); 
 		if (recentSongs.size() > 10) { // ensure only 10 songs are kept
-            recentSongs.removeLast();
+            recentSongs.remove(recentSongs.size() - 1);
         }
 	}
 	
-	public LinkedList<Song> getRecentSongs() {
-        return new LinkedList<>(recentSongs);
+	public ArrayList<Song> getRecentSongs() {
+        return new ArrayList<>(recentSongs);
     }
 	
 	public ArrayList<Song> getTop10MostPlayedSongs() {

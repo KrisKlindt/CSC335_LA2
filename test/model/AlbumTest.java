@@ -19,21 +19,21 @@ class AlbumTest {
 
 	@Test
 	void addSongTest() {
-		Song song1 = new Song("one", "Joe Biden", "yes");
+		Song song1 = new Song("one", "Joe Biden", "yes", "dem");
 		album1.addSong(song1);
 		assertTrue(album1.getAlbum().size() == 1);
 	}
 
 	@Test
 	void falseSearchByTitleTest() {
-		Song song2 = new Song("one", "Joe Biden", "yes");
+		Song song2 = new Song("one", "Joe Biden", "yes", "dem");
 		album1.addSong(song2);
 		assertTrue(album1.searchByTitle("two").size() == 0);
 	}
 	
 	@Test
 	void trueSearchByTitleTest() {
-		Song song3 = new Song("one", "Joe Biden", "yes");
+		Song song3 = new Song("one", "Joe Biden", "yes", "dem");
 		album1.addSong(song3);
 		assertTrue(album1.searchByTitle("one").size() == 1);
 	}
@@ -45,7 +45,7 @@ class AlbumTest {
 	
 	@Test
 	void printAlbumDetailsTest() {
-		Song song4 = new Song("a", "b", "c");
+		Song song4 = new Song("a", "b", "c", "dem");
 		album1.addSong(song4);
 		album1.printAlbumDetails();
 	}

@@ -20,505 +20,249 @@ import org.junit.jupiter.api.AfterEach;
 
 class LibraryModelTest {
 	LibraryModel lm = new LibraryModel();
-	LibraryModel lm2 = new LibraryModel();
-	private final InputStream originalSystemIn = System.in;
+	MusicStore ms = new MusicStore();
+	Song song = ms.searchSongByTitle("Politik", false).getFirst();
+	Song song2 = ms.searchSongByTitle("He Won't Go", false).getFirst();
+	Song song3 = ms.searchSongByTitle("Mis Ojos", false).getFirst();
+	Album alb = ms.searchAlbumByTitle("A Rush of Blood to the Head", false).getFirst();
+	Album alb2 = ms.searchAlbumByTitle("21", false).getFirst();
+	Album alb3 = ms.searchAlbumByTitle("Cuando Los Angeles Lloran", false).getFirst();
 	
-	@AfterEach
-	void restoreSystemInStream() {
-	    System.setIn(originalSystemIn);
-	}
-	
-	void initLM2() {
-		String input = ("yes\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-		lm2.createPlayList("Sad");
-		lm2.addSongToPlayList("Sad", "Lullaby");
-	}
-	
-	@Test
-	void testCreatePlayList() {
-		lm.createPlayList("Mood");
-		assertTrue(lm.getPlayLists().size() == 1);
-		lm.createPlayList("Angst");
-		assertTrue(lm.getPlayLists().size() == 2);
-	}
-	
-	@Test
-	void testCreatePlayListSameName() {
-		lm.createPlayList("Angst");		
-		lm.createPlayList("Angst");
-		assertTrue(lm.getPlayLists().size() == 1);
-	}
-	
-	@Test
-	void testAddSongNotInStore() {
-		lm.addSong("Letter To My 13 Year Old Self");
-		assertTrue(lm.getSongTitles().size() == 0);
-	}
-	
-	@Test
-	void testAddSongSingle() {
-		lm.addSong("Set Fire To The Rain");
-		assertTrue(lm.getSongTitles().size() == 1);
-		assertEquals(lm.getSongTitles().get(0), "Set Fire to the Rain");
-	}
-	
-	@Test
-	void testAddSongMultipleYes() {
-		String input = ("yes\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-		lm.addSong("Lullaby");
-		assertTrue(lm.getSongTitles().size() == 2);
-		assertEquals(lm.getSongTitles().get(0), "Lullaby");
-		assertEquals(lm.getSongTitles().get(1), "Lullaby");
-
-	}
-	
-	@Test
-	void testAddSongMultipleNo() {
-		String input = ("no\nOneRepublic\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-		lm.addSong("Lullaby");
-		assertTrue(lm.getSongTitles().size() == 1);
-		assertEquals(lm.getSongTitles().get(0), "Lullaby");
-		assertEquals(lm.getArtists().get(0), "OneRepublic");
-
-	}
-	
-	@Test
-	void testAddSongMultipleNoInvalidArtist() {
-		String input = ("no\nAdele\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-		lm.addSong("Lullaby");
-		assertTrue(lm.getSongTitles().size() == 0);
-	}
-	
-	@Test
-	void testAddSongMultipleNotYesOrNo() {
-		String input = ("maybe\nyes\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-		lm.addSong("Lullaby");
-		assertTrue(lm.getSongTitles().size() == 2);
-	}
-	
-	@Test
-	void testAddAlbum() {
-		lm.addAlbum("Sons");
-		assertTrue(lm.getAlbumTitles().size() == 1);
-		assertEquals(lm.getAlbumTitles().get(0), "Sons");
-	}
-	
-	@Test
-	void testSearchPlayList() {
-		lm.createPlayList("Melancholy");
-		assertTrue(lm.searchPlayList("melancholy"));
-	}
-	
-	@Test
-	void testSearchPlayListFail() {
-		lm.createPlayList("Melancholy");
-		assertFalse(lm.searchPlayList("Goddess"));
-	}
-	
-	@Test
-	void testAddSongToPlayList() {
-		lm.createPlayList("Sad");
-		assertTrue(lm.addSongToPlayList("Sad", "Winter Winds"));
-	}
-	
-	@Test
-	void testAddSongToPlayListNotInStore() {
-		lm.createPlayList("Sad");
-		assertFalse(lm.addSongToPlayList("Sad", "Letter To My 13 Year Old Self"));
-	}
-	
-	@Test
-	void testAddSongToPlayListMultipleYes() {
-		String input = ("yes\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-		lm.createPlayList("Sad");
-		assertTrue(lm.addSongToPlayList("Sad", "Lullaby"));
-		assertTrue(lm.getSongTitles().size() == 2);
-		assertEquals(lm.getSongTitles().get(0), "Lullaby");
-	}
-	
-	@Test
-	void testAddSongToPlayListMultipleNo() {
-		String input = ("no\nOneRepublic\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-		lm.createPlayList("Sad");
-		assertTrue(lm.addSongToPlayList("Sad", "Lullaby"));
-		assertTrue(lm.getSongTitles().size() == 1);
-		assertEquals(lm.getSongTitles().get(0), "Lullaby");
-	}
-	
-	@Test
-	void testAddSongToPlayListMultipleNoInvalidArtist() {
-		String input = ("no\nLaufey\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-		lm.createPlayList("Sad");
-		assertFalse(lm.addSongToPlayList("Sad", "Lullaby"));
-		assertTrue(lm.getSongTitles().size() == 0);
-	}
-	
-	@Test
-	void testAddSongToPlayListMultipleNotYesOrNo() {
-		String input = ("maybe\nyes\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-		lm.createPlayList("Sad");
-		assertTrue(lm.addSongToPlayList("Sad", "Lullaby"));
-		assertTrue(lm.getSongTitles().size() == 2);
-		assertEquals(lm.getSongTitles().get(0), "Lullaby");
-	}
-	
-	@Test
-	void testAddSongToPlayListInvalidPlayList() {
+	void initPlayLists() {
 		lm.createPlayList("sad");
-		assertFalse(lm.addSongToPlayList("happy", "Winter Winds"));
+		lm.createPlayList("happy");
+	}
+	
+	void addSongs() {
+		lm.addSong(song);
+		lm.addSong(song2);
+		lm.addSong(song3);
+	}
+	
+	void addAlbums() {
+		lm.addAlbum(alb);
+		lm.addAlbum(alb2);
+		lm.addAlbum(alb3);
 	}
 	
 	@Test
-	void testRemoveSongFromPlayList() {
-		lm.createPlayList("Sad");
-		lm.addSongToPlayList("Sad", "Winter Winds");
-		assertTrue(lm.removeSongFromPlayList("Sad", "Winter Winds"));
+	void createAndSearchPlayListTest() {
+		initPlayLists();
+		PlayList pl = lm.searchPlayList("sad");
+		assertEquals(pl.getTitle(), "sad");
 	}
 	
 	@Test
-	void testRemoveSongFromPlayListEmpty() {
-		lm.createPlayList("Sad");
-		assertFalse(lm.removeSongFromPlayList("Sad", "Winter Winds"));
+	void addAndGetSongSTest() {
+		lm.addSong(song);
+		assertEquals(lm.getSongs().size(), 1);
+		assertEquals(lm.getSongs().getFirst().getTitle(), "Politik");
 	}
 	
 	@Test
-	void testRemoveSongFromPlayListMultipleYes() {
-		initLM2();
-		String input = ("yes\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-		assertTrue(lm2.removeSongFromPlayList("Sad", "Lullaby"));
+	void addAndGetAlbumsTest() {
+		Album alb = ms.searchAlbumByTitle("21", false).getFirst();
+		lm.addAlbum(alb);
+		assertEquals(lm.getAlbums().size(), 1);
+		assertEquals(lm.getAlbums().getFirst().getTitle(), "21");
 	}
 	
 	@Test
-	void testRemoveSongFromPlayListMultipleNo() {
-		initLM2();
-		String input = ("no\nOneRepublic\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-		assertTrue(lm2.removeSongFromPlayList("Sad", "Lullaby"));
+	void addSongToPlayListTest() {
+		initPlayLists();
+		PlayList pl = lm.searchPlayList("sad");
+		lm.addSongToPlayList(pl, song);
+		assertEquals(pl.getPlayList().getFirst().getTitle(), "Politik");
 	}
 	
 	@Test
-	void testRemoveSongFromPlayListMultipleNoInvalidArtist() {
-		initLM2();
-		String input = ("no\nLaufey\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-		assertFalse(lm2.removeSongFromPlayList("Sad", "Lullaby"));
+	void removeSongFromPlayListTest() {
+		initPlayLists();
+		PlayList pl = lm.searchPlayList("sad");
+		lm.addSongToPlayList(pl, song);
+		assertEquals(pl.getPlayList().getFirst().getTitle(), "Politik");
+		lm.removeSongFromPlayList(pl, song);
+		assertEquals(pl.getPlayList().size(), 0);
 	}
 	
 	@Test
-	void testRemoveSongFromPlayListMultipleNotYesOrNo() {
-		initLM2();
-		String input = ("maybe\nyes\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-		assertTrue(lm2.removeSongFromPlayList("Sad", "Lullaby"));
+	void searchSongByTitleTest() {
+		addSongs();
+		assertEquals(lm.getSongs().size(), 3);
+		Song song = lm.searchSongByTitle("He Won't Go").getFirst();
+		assertEquals(song.getTitle(), "He Won't Go");
 	}
 	
 	@Test
-	void testRemoveSongFromPlayListInvalidPlayList() {
-		assertFalse(lm2.removeSongFromPlayList("Happy", "Lullaby"));
+	void searchSongByArtistTest() {
+		addSongs();
+		Song song = lm.searchSongByArtist("Mana").getFirst();
+		assertEquals(song.getArtist(), "Mana");
+		assertEquals(song.getTitle(), "Mis Ojos");
 	}
 	
 	@Test
-	void testSearchSongByTitleOne() {
-		lm.addSong("I Feel The Earth Move");
-		ArrayList<Song> songList = lm.searchSongByTitle("I Feel The Earth Move");
-		assertTrue(songList.size() == 1);
-		assertEquals(songList.get(0).getTitle(), "I Feel The Earth Move");
-	}
-	 
-	@Test
-	void testSearchBySongTitleMultiple() {
-		initLM2();
-		ArrayList<Song> songList = lm2.searchSongByTitle("Lullaby");
-		assertTrue(songList.size() == 2);
-		assertEquals(songList.get(0).getTitle(), "Lullaby");
-		assertEquals(songList.get(1).getTitle(), "Lullaby");
+	void searchAlbumByTitleTest() {
+		addAlbums();
+		Album alb = lm.searchAlbumByTitle("21").getFirst();
+		assertEquals(alb.getTitle(), "21");
+		assertEquals(alb.getArtist(), "Adele");
 	}
 	
 	@Test
-	void testSearchBySongTitleNotInLibrary() {
-		ArrayList<Song> songList = lm.searchSongByTitle("Not in Library");
-		assertTrue(songList.size() == 0);
+	void searchAlbumByArtistTest() {
+		addAlbums();
+		Album alb = lm.searchAlbumByArtist("Mana").getFirst();
+		assertEquals(alb.getTitle(), "Cuando Los Angeles Lloran");
+		assertEquals(alb.getArtist(), "Mana");
 	}
 	
 	@Test
-	void testSearchSongByArtist() {
-		lm.addSong("Set Fire To The Rain");
-		ArrayList<Song> songList = lm.searchSongByArtist("Adele");
-		assertTrue(songList.size() == 1);
-		assertEquals(songList.get(0).getArtist(), "Adele");
+	void getSongTitlesTest() {
+		addSongs();
+		ArrayList<String> songs = lm.getSongTitles();
+		assertEquals(songs.size(), 3);
+		assertEquals(songs.getFirst(), "Politik");
+		assertEquals(songs.getLast(), "Mis Ojos");
 	}
 	
 	@Test
-	void testSearchSongByArtistNotInLibrary() {
-		lm.addSong("Set Fire To The Rain");
-		ArrayList<Song> songList = lm.searchSongByArtist("Laufey");
-		assertTrue(songList.size() == 0);
-	}
-	
-	
-	@Test
-	void testSearchAlbumByTitle() {
-		lm.addAlbum("Sons");
-		ArrayList<Album> albumList = lm.searchAlbumByTitle("Sons");
-		assertTrue(albumList.size() == 1);
-		assertEquals(albumList.get(0).getTitle(), "Sons");
+	void getSongsTest() {
+		addSongs();
+		assertEquals(lm.getSongs().getFirst(), song);
+		assertEquals(lm.getSongs().getLast(), song3);
 	}
 	
 	@Test
-	void testSearchAlbumByTitleNotInLibrary() {
-		lm.addAlbum("Sons");
-		ArrayList<Album> albumList = lm.searchAlbumByTitle("Goddess");
-		assertTrue(albumList.size() == 0);
+	void getArtistsTest(){
+		addSongs();
+		assertEquals(lm.getArtists().getFirst(), "Coldplay");
+		assertEquals(lm.getArtists().getLast(), "Mana");
 	}
 	
 	@Test
-	void testSearchAlbumByArtist() {
-		lm.addAlbum("Sons");
-		ArrayList<Album> albumList = lm.searchAlbumByArtist("The Heavy");
-		assertTrue(albumList.size() == 1);
-		assertEquals(albumList.get(0).getArtist(), "The Heavy");
+	void getAlbumTitlesTest() {
+		addAlbums();
+		assertEquals(lm.getAlbumTitles().get(1), "21");
+		assertEquals(lm.getAlbumTitles().getLast(), "Cuando Los Angeles Lloran");
 	}
 	
 	@Test
-	void testSearchAlbumByArtistMultiple() {
-		lm.addAlbum("19");
-		lm.addAlbum("21");
-		ArrayList<Album> albumList = lm.searchAlbumByArtist("Adele");
-		assertTrue(albumList.size() == 2);
-		assertEquals(albumList.get(0).getArtist(), "Adele");
-		assertEquals(albumList.get(1).getArtist(), "Adele");
+	void getAlbumsTest() {
+		addAlbums();
+		assertEquals(lm.getAlbums().getFirst(), alb);
+		assertEquals(lm.getAlbums().getLast(), alb3);
 	}
 	
 	@Test
-	void testSearchAlbumByArtistNotInLibrary() {
-		lm.addAlbum("Sons");
-		ArrayList<Album> albumList = lm.searchAlbumByArtist("Laufey");
-		assertTrue(albumList.size() == 0);
+	void getPlayListsTest() {
+		initPlayLists();
+		assertEquals(lm.getPlayLists().getFirst(), "sad");
+		assertEquals(lm.getPlayLists().getLast(), "happy");
 	}
 	
 	@Test
-	void testGetSongTitles() {
-		lm.addSong("Set Fire to the Rain");
-		lm.addSong("Winter Winds");
-		lm.addSong("Mis Ojos");
-		assertTrue(lm.getSongTitles().size() == 3);
-		assertEquals(lm.getSongTitles().get(0), "Set Fire to the Rain");
-		assertEquals(lm.getSongTitles().get(2), "Mis Ojos");
+	void getPLsTest() {
+		initPlayLists();
+		assertEquals(lm.getPLs().getFirst().getTitle(), "sad");
+		assertEquals(lm.getPLs().getFirst().getTitle(), "happy");
 	}
 	
 	@Test
-	void testGetSongTitlesEmpty() {
-		lm.addSong("Goddess");
-		lm.addSong("Letter to my 13 Year Old Self");
-		assertTrue(lm.getSongTitles().size() == 0);
+	void markAndGetFavoriteSongsTest() {
+		addSongs();
+		lm.favoriteSong(song);
+		lm.favoriteSong(song3);
+		assertEquals(lm.getFavoriteSongs().getFirst(), "Politik");
+		assertEquals(lm.getFavoriteSongs().getLast(), "Mis Ojos");
 	}
 	
 	@Test
-	void testGetArtists() {
-		lm.addSong("Set Fire to the Rain");
-		assertTrue(lm.getArtists().size() == 1);
-		lm.addSong("Mis Ojos");
-		assertTrue(lm.getArtists().size() == 2);
-		lm.addSong("Rolling in the deep");
-		assertTrue(lm.getArtists().size() == 2);
-		assertEquals(lm.getArtists().get(0), "Adele");
-		assertEquals(lm.getArtists().get(1), "Mana");
+	void rateAndGetTopRatedTest() {
+		addSongs();
+		lm.rateSong(song, 4);
+		lm.rateSong(song2, 3);
+		lm.rateSong(song3, 5);
+		assertEquals(song.getRating(), 4);
+		assertEquals(lm.getTopRated().getFirst().getTitle(), "Politik");
+		assertEquals(lm.getTopRated().getLast().getTitle(), "Mis Ojos");
 	}
 	
 	@Test
-	void testGetArtistsEmpty() {
-		lm.addSong("Goddess");
-		lm.addSong("Letter to my 13 Year Old Self");
-		assertTrue(lm.getArtists().size() == 0);
+	void playAndGetRecentSongsTest() {
+		addSongs();
+		lm.playSong(song);
+		lm.playSong(song3);
+		lm.playSong(song2);
+		lm.playSong(song3);
+		assertEquals(song3.getPlays(), 2);
+		assertEquals(lm.getRecentSongs().getFirst(), song3);
+		assertEquals(lm.getRecentSongs().getLast(), song);
 	}
 	
 	@Test
-	void testGetAlbumTitles() {
-		lm.addAlbum("19");
-		lm.addAlbum("Waking up");
-		assertTrue(lm.getAlbumTitles().size() == 2);
-		assertEquals(lm.getAlbumTitles().get(0), "19");
-		assertEquals(lm.getAlbumTitles().get(1), "Waking Up");
+	void getMostPlayedTest() {
+		addSongs();
+		lm.playSong(song);
+		lm.playSong(song2);
+		lm.playSong(song2);
+		lm.playSong(song3);
+		lm.playSong(song3);
+		lm.playSong(song3);
+		assertEquals(lm.getTop10MostPlayedSongs().getFirst(), song3);
+		assertEquals(lm.getTop10MostPlayedSongs().getLast(), song);
 	}
 	
 	@Test
-	void testGetAlbumTitlesEmpty() {
-		lm.addAlbum("Bewitched");
-		lm.addAlbum("Everything I Know About Love");
-		assertTrue(lm.getAlbumTitles().size() == 0);
+	void searchSongByGenreTest() {
+		addSongs();
+		assertEquals(lm.searchSongByGenre("Latin").getFirst().getTitle(), "Mis Ojos");
+		assertEquals(lm.searchSongByGenre("Pop").getFirst().getTitle(), "He Won't Go");
 	}
 	
 	@Test
-	void testGetPlayLists() {
-		lm.createPlayList("Happy");
-		lm.createPlayList("Sad");
-		assertTrue(lm.getPlayLists().size() == 2);
-		assertEquals(lm.getPlayLists().get(0), "Happy");
-		assertEquals(lm.getPlayLists().get(1), "Sad");
+	void getSongsSortedByTitleTest() {
+		addSongs();
+		ArrayList<Song> sorted = lm.getSongsSortedByTitle();
+		assertEquals(sorted.getFirst(), song2);
+		assertEquals(sorted.getLast(), song);
 	}
 	
 	@Test
-	void testGetPlayListsEmpty() {
-		assertTrue(lm.getPlayLists().size() == 0);
+	void getSongsSortedByArtistTest() {
+		addSongs();
+		ArrayList<Song> sorted = lm.getSongsSortedByArtist();
+		assertEquals(sorted.getFirst(), song2);
+		assertEquals(sorted.getLast(), song3);
 	}
 	
 	@Test
-	void testFavoriteSongNotInLibrary() {
-		lm.addSong("rolling in the deep");
-		assertFalse(lm.favoriteSong("Mis Ojos"));
+	void getSongsSortedByRatingTest() {
+		addSongs();
+		song.rateSong(5);
+		song2.rateSong(1);
+		song3.rateSong(3);
+		ArrayList<Song> sorted = lm.getSongsSortedByRating();
+		assertEquals(sorted.getFirst(), song2);
+		assertEquals(sorted.getLast(), song);
 	}
 	
 	@Test
-	void testFavoriteSong() {
-		lm.addSong("Mis Ojos");
-		assertTrue(lm.favoriteSong("Mis Ojos"));
+	void getFavoritesTest() {
+		addSongs();
+		song.markAsFavorite();
+		song3.markAsFavorite();
+		ArrayList<Song> sorted = lm.getFavorites();
+		assertEquals(sorted.getFirst(), song);
+		assertEquals(sorted.getLast(), song3);
 	}
 	
 	@Test
-	void testFavoriteSongMultipleYes() {
-		initLM2();
-		String input = ("yes\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-        assertTrue(lm2.favoriteSong("Lullaby"));
-	}
-	
-	@Test
-	void testFavoriteSongMultipleNo() {
-		initLM2();
-		String input = ("no\nOneRepublic\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-        assertTrue(lm2.favoriteSong("Lullaby"));
-	}
-	
-	@Test
-	void testFavoriteSongMultipleNoInvalidArtist() {
-		initLM2();
-		String input = ("no\nLaufey\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-        assertFalse(lm2.favoriteSong("Lullaby"));
-	}
-	
-	@Test
-	void testFavoriteSongMultipleNotYesOrNo() {
-		initLM2();
-		String input = ("maybe\nyes\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-        assertTrue(lm2.favoriteSong("Lullaby"));
-	}
-	
-	@Test
-	void testGetFavoriteSongs() {
-		lm.addSong("rolling in the deep");
-		lm.addSong("mis ojos");
-		lm.favoriteSong("rolling in the deep");
-		assertTrue(lm.getFavoriteSongs().size() == 1);
-		assertEquals(lm.getFavoriteSongs().get(0), "Rolling in the Deep");
-		lm.favoriteSong("mis ojos");
-		assertTrue(lm.getFavoriteSongs().size() == 2);
-		assertEquals(lm.getFavoriteSongs().get(1), "Mis Ojos");
-	}
-	
-	@Test
-	void testGetFavoriteSongsEmpty() {
-		lm.addSong("rolling in the deep");
-		lm.addSong("mis ojos");
-		assertTrue(lm.getFavoriteSongs().size() == 0);
-		lm.favoriteSong("Letter to my 13 year old self");
-		assertTrue(lm.getFavoriteSongs().size() == 0);
-	}
-	
-	@Test
-	void testRateSongNotInLibrary() {
-		lm.addSong("mis ojos");
-		assertFalse(lm.rateSong("rolling in the deep", 4));
-	}
-	
-	@Test
-	void testRateSong() {
-		lm.addSong("Mis ojos");
-		assertTrue(lm.rateSong("mis Ojos", 3));
-	}
-	
-	@Test
-	void testRateSongMultipleYes() {
-		initLM2();
-		String input = ("yes\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-        assertTrue(lm2.rateSong("Lullaby", 4));
-	}
-	
-	@Test
-	void testRateSongMultipleNo() {
-		initLM2();
-		String input = ("no\nOneRepublic\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-        assertTrue(lm2.rateSong("Lullaby", 4));
-	}
-	
-	@Test
-	void testRateSongMultipleNoInvalidArtist() {
-        initLM2();
-		String input = ("no\nLaufey\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-        assertFalse(lm2.rateSong("Lullaby", 4));
-	}
-	
-	@Test
-	void testRateSongMultipleNotYesOrNo() {
-        initLM2();
-		String input = ("maybe\nyes\n");
-		ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-        assertTrue(lm2.rateSong("Lullaby", 4));
-	}
-	
-	@Test
-	void testMSSearchSongByTitle() {
-		assertTrue(lm.mS_SearchSongByTitle("rolling in the deep").size() == 1);
-	}
-	
-	@Test
-	void testMSSearchSongByArtist() {
-		assertTrue(lm.mS_SearchSongByArtist("Mana").size() == 12);
-	}
-	
-	@Test
-	void testMSSearchAlbumByTitle() {
-		assertTrue(lm.mS_SearchAlbumByTitle("19").size() == 1);
-	}
-	
-	@Test
-	void testMSSearchAlbumByArtist() {
-		assertTrue(lm.mS_SearchAlbumByArtist("Adele").size() == 2);
+	void getGenresTest() {
+		addSongs();
+		ArrayList<String> genres = lm.getGenres();
+		assertEquals(genres.getFirst(), "Alternative");
+		assertEquals(genres.get(1), "Pop");
+		assertEquals(genres.getLast(), "Latin");
 	}
 }

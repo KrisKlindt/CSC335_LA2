@@ -22,14 +22,14 @@ class PlayListTest {
 	
 	@Test
 	void addSongTest() {
-		pl.addSong(new Song("a", "b", "c"));
+		pl.addSong(new Song("a", "b", "c", "d"));
 		ArrayList<Song> p = pl.getPlayList();
 		assertTrue(p.size() == 1);
 	}
 	
 	@Test
 	void removeSongTest() {
-		Song s = new Song("a", "b", "c");
+		Song s = new Song("a", "b", "c", "d");
 		pl.addSong(s);
 		pl.removeSong(s);
 		ArrayList<Song> p = pl.getPlayList();
@@ -38,7 +38,7 @@ class PlayListTest {
 	
 	@Test
 	void printPlayListTest() {
-		pl.addSong(new Song("a", "b", "c"));
+		pl.addSong(new Song("a", "b", "c", "d"));
 		pl.printPlaylist();
 	}
 }
