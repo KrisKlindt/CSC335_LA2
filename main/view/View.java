@@ -1140,7 +1140,7 @@ public class View {
 	}
 	
 	public void getRecentSongs() {
-		LinkedList<Song> recentSongs = u.library.getRecentSongs();
+		ArrayList<Song> recentSongs = u.library.getRecentSongs();
 		if (recentSongs.size() == 0) {
 			System.out.println("You haven't recently played anything. Play something!");
 		}
