@@ -17,8 +17,16 @@ public class LibraryModel {
 	}
 	
 	public void createPlayList(String title) {
+		boolean flag = false;
+		for (PlayList pl: playLists) {
+			if (pl.getTitle().equalsIgnoreCase(title)){
+				flag = true;
+			}
+		}
+		if(!flag) {
 			PlayList playlist = new PlayList(title);
 			playLists.add(playlist);
+		}
 	}
 	
 	public void addSong(Song song) {

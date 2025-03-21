@@ -2,3 +2,19 @@ Donald_Trump,O/1TkCDxY9dQqJbcr6QWrpY5Onis1EI9VfK4++kFQeMJOdfahukegXAqKrPX4xp2,O/
 Album,Waking Up,OneRepublic,Rock,2009,Made for You_OneRepublic,All the Right Moves_OneRepublic,Secrets_OneRepublic,Everybody Loves Me_OneRepublic,Missing Persons 1 & 2_OneRepublic,Good Life_OneRepublic,All This Time_OneRepublic,Fear_OneRepublic,Waking Up_OneRepublic,Marchin On_OneRepublic,Lullaby_OneRepublic
 Album,21,Adele,Pop,2011,Rolling in the Deep_Adele
 PlayList,no
+PlayList,Favorite Songs
+PlayList,Rock,Made for You_OneRepublic,All the Right Moves_OneRepublic,Secrets_OneRepublic,Everybody Loves Me_OneRepublic,Missing Persons 1 & 2_OneRepublic,Good Life_OneRepublic,All This Time_OneRepublic,Fear_OneRepublic,Waking Up_OneRepublic,Marchin On_OneRepublic,Lullaby_OneRepublic
+PlayList,Favorite Songs
+PlayList,Rock
+PlayList,Favorite Songs
+PlayList,Rock
+PlayList,Favorite Songs
+PlayList,Rock
+PlayList,Favorite Songs
+PlayList,Rock
+PlayList,Favorite Songs
+PlayList,Rock
+PlayList,Favorite Songs
+PlayList,Rock
+PlayList,Favorite Songs
+PlayList,Rock

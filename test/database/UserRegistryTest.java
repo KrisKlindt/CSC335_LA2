@@ -14,7 +14,7 @@ public class UserRegistryTest {
 	
 	@Test
 	void addUserandCheckIfUserExistsTrueTest(){
-		new User("Isaac_Cota", "helloWorld");
+		uR.addUser(new User("Isaac_Cota", "helloWorld"));
 		assertTrue(uR.checkIfUserExists("Isaac_Cota"));
 	}
 	
@@ -25,6 +25,7 @@ public class UserRegistryTest {
 	
 	@Test
 	void getUserTest() {
+		uR.addUser(new User("Isaac_Cota", "helloWorld"));
 		User user = uR.getUser("Isaac_Cota");
 		assertEquals(user.getUName(), "Isaac_Cota");
 	}
