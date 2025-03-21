@@ -18,6 +18,11 @@ public class Song {
         this.plays = 0;
     }
 
+    // Only used when reading in the song from txt file
+    public void setPlays(int num) {
+    	plays=num;
+    }
+    
     public String getTitle() {
 		return title;
 	}

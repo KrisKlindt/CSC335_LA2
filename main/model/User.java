@@ -123,6 +123,11 @@ public class User {
                 		
                 		for(Song s: sngs) {
                 			if (sngsByArtist.contains(s)) {
+                				s.setPlays(Integer.parseInt(songInfo[2]));
+                				s.rateSong(Integer.parseInt(songInfo[3]));
+                				if(songInfo[4].equals("true")) {
+                					s.markAsFavorite();
+                				}
                     			alb.addSong(s); // ensures song has both the right title and artist
                     			songList.add(s);
                 			}
@@ -147,6 +152,11 @@ public class User {
                 		
                 		for(Song s: sngs) {
                 			if (sngsByArtist.contains(s)) {
+                				s.setPlays(Integer.parseInt(songInfo[2]));
+                				s.rateSong(Integer.parseInt(songInfo[3]));
+                				if(songInfo[4].equals("true")) {
+                					s.markAsFavorite();
+                				}
                     			library.addSongToPlayList(library.searchPlayList(l[1]), s); // ensures song has both the right title and artist
                 			}
                 		}
@@ -189,7 +199,8 @@ public class User {
 	            	content = "Album," + a.getTitle() + "," + a.getArtist() + "," + a.getGenre() + "," + a.getYear() + ",";
 	            	// go through the song in each album, add title to content
 	            	for (Song s: a.getAlbum()) {
-	            		content = content + s.getTitle() + "_" + s.getArtist() + ","; // need both title and artist to ensure uniqueness
+	            		content = content + s.getTitle() + "_" + s.getArtist() + "_" + s.getPlays() + "_" + 
+	            					s.getRating() + "_" + s.getFavorite(); // need both title and artist to ensure uniqueness
 	            	}
 	            	content = content.substring(0, content.length()-1); // gets rid of last ,
 	            	writer.write(content);
@@ -202,7 +213,8 @@ public class User {
 	            	content = "PlayList," + p.getTitle() + ",";
 	            	// go through the song in each album, add title to content
 	            	for (Song s: p.getPlayList()) {
-	            		content = content + s.getTitle() + "_" + s.getArtist() + ","; // need both title and artist to ensure uniqueness
+	            		content = content + s.getTitle() + "_" + s.getArtist() + "_" + s.getPlays() + "_" + 
+            					s.getRating() + "_" + s.getFavorite(); // need both title and artist to ensure uniqueness
 	            	}
 	            	content = content.substring(0, content.length()-1); // gets rid of last ,
 	            	writer.write(content);
