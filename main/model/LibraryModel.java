@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class LibraryModel {
@@ -284,4 +285,47 @@ public class LibraryModel {
 		}
 		return topRated;
 	}
+	
+	public void removeSong(Song s) {
+		songs.remove(s);
+		// need to remove from album as well
+		String albumTitle = s.getAlbum();
+		for (Album alb: albums) {
+			if (alb.getTitle().equalsIgnoreCase(albumTitle)) {
+				alb.removeSong(s);
+				// check if album is empty, remove if it is
+				if (alb.getAlbum().size() == 0) {
+					albums.remove(alb);
+				}
+			}
+		}
+	}
+	
+	public void removeAlbum(Album alb) {
+		for(Song s: alb.getAlbum()) {
+			removeSong(s);
+		}
+		albums.remove(alb);
+	}
+	
+	public void shuffleSongs() {
+		Collections.shuffle(songs);
+	}
+	
+	public void shufflePlayList(String title) {
+		for (PlayList pl: playLists) {
+			if (pl.getTitle().equals(title)) {
+				Collections.shuffle(pl.getPlayList());
+			}
+		}
+	}
+	
+	public void getSongAlbumInfo(Song s) {
+		for (Album alb: albums) {
+			if (alb.getAlbum().contains(s)) {
+				alb.printAlbumDetails();
+			}
+		}
+	}
+			
 }

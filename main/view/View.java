@@ -157,7 +157,7 @@ public class View {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Welcome "+ u.getUName().replace("_", " ") +"!\nThis is your music library where you can add songs and Albums that are available within our store!");
 		int command = 0;
-		while (command < 18) {
+		while (command < 27) {
 			createFavoriteSongsPlayList();
 			createGenresPlayLists();
 			createTopRatedPlayList();
@@ -168,10 +168,10 @@ public class View {
 			System.out.println("4. Search for a playlist");
 			System.out.println("5. Add a song to a playlist");
 			System.out.println("6. Remove a song from a playlist");
-			System.out.println("7. Search for a song by the title");
-			System.out.println("8. Search for a song by the artist");
-			System.out.println("9. Search an an album by the title");
-			System.out.println("10. Search for an album by the artist");
+			System.out.println("7. Search for a song by the title from the music store");
+			System.out.println("8. Search for a song by the artist from the music store");
+			System.out.println("9. Search an an album by the title from the music store");
+			System.out.println("10. Search for an album by the artist from the music store");
 			System.out.println("11. Mark a song as a favorite");
 			System.out.println("12. Rate a song 1 - 5");
 			System.out.println("13. Get the titles of the songs in your library");
@@ -184,6 +184,10 @@ public class View {
 			System.out.println("20. Get your top 10 most played songs.");
 			System.out.println("21. Search for a song by the genre.");
 			System.out.println("22. Sort the songs in your library.");
+			System.out.println("23. Remove a song from your library.");
+			System.out.println("24. Remove an album from your library.");
+			System.out.println("25. Shuffle the songs in your library.");
+			System.out.println("26. Shuffle a playlist");
 			
 			System.out.println("Please enter the integer of the command you'd like to use: ");
 			System.out.println("Or enter a negative integer to exit");
@@ -361,7 +365,7 @@ public class View {
 					break;
 				}
 			}
-			else if (command == 21) {
+			else if (command == 22) {
 				System.out.println("How would you like them sorted? Title, artist, or rating?");
 				String sorting = scanner.nextLine();
 				if (sorting.equalsIgnoreCase("title")) {
@@ -379,6 +383,37 @@ public class View {
 				else {
 					System.out.println("You didn't enter any of the given ways to sort.");
 				}
+				if(!(exit())) {
+					break;
+				}
+			}
+			else if (command == 23) {
+				System.out.println("What's the title of the song you'd like to remove?");
+				String title = scanner.nextLine();
+				removeSong(title);
+				if(!(exit())) {
+					break;
+				}
+			}
+			else if (command == 24) {
+				System.out.println("What's the title of the album you'd like to remove?");
+				String title = scanner.nextLine();
+				removeAlbum(title);
+				if(!(exit())) {
+					break;
+				}
+			}
+			else if (command == 25) {
+				shuffleSongList();
+				System.out.println("Songs have been shuffled");
+				if(!(exit())) {
+					break;
+				}
+			}
+			else if (command == 26) {
+				System.out.println("What's the title of the playlist you'd like to shuffle?");
+				String title = scanner.nextLine();
+				shufflePlayList(title);
 				if(!(exit())) {
 					break;
 				}
@@ -873,10 +908,64 @@ public class View {
 		if (songList.size() == 0) {
 			System.out.println("This song title is not in the music store");
 		}
+		else if (songList.size() == 1){
+			songList.getFirst().printAllDetails();
+			
+			System.out.println("Would you like to get the information of this song?");
+			Scanner scanner = new Scanner(System.in);
+			String answer = "";
+			
+			while(!(answer.equalsIgnoreCase("yes")) || !(answer.equalsIgnoreCase("no"))) {
+				answer = scanner.nextLine();
+				
+				if (answer.equalsIgnoreCase("yes")) {
+					break;
+				}
+				else if (answer.equalsIgnoreCase("no")) {
+					break;
+				}
+				else {
+					System.out.println("Please type yes or no");
+				}
+			}
+			if (answer.equalsIgnoreCase("yes")) {
+				ArrayList<Album> albumList = mStore.searchAlbumByTitle(title, false);
+				for(Album alb: albumList) {
+					if (alb.getAlbum().contains(songList.getFirst())) {
+						alb.printAlbumDetails();
+					}
+				}
+			}
+		}
 		else {
-			for (Song song: songList) {
-				song.printAllDetails();
-				System.out.println(); // so there is a space between each song
+			for (Song s: songList) {
+				s.printAllDetails();
+				
+				System.out.println("Would you like to get the information of this song?");
+				Scanner scanner = new Scanner(System.in);
+				String answer = "";
+				
+				while(!(answer.equalsIgnoreCase("yes")) || !(answer.equalsIgnoreCase("no"))) {
+					answer = scanner.nextLine();
+					
+					if (answer.equalsIgnoreCase("yes")) {
+						break;
+					}
+					else if (answer.equalsIgnoreCase("no")) {
+						break;
+					}
+					else {
+						System.out.println("Please type yes or no");
+					}
+				}
+				if (answer.equalsIgnoreCase("yes")) {
+					ArrayList<Album> albumList = mStore.searchAlbumByTitle(title, false);
+					for(Album alb: albumList) {
+						if (alb.getAlbum().contains(s)) {
+							alb.printAlbumDetails();
+						}
+					}
+				}
 			}
 		}
 	}
@@ -887,10 +976,64 @@ public class View {
 		if (songList.size() == 0) {
 			System.out.println("This song artist is not in the music store");
 		}
+		else if (songList.size() == 1){
+			songList.getFirst().printAllDetails();
+			
+			System.out.println("Would you like to get the album information of this song?");
+			Scanner scanner = new Scanner(System.in);
+			String answer = "";
+			
+			while(!(answer.equalsIgnoreCase("yes")) || !(answer.equalsIgnoreCase("no"))) {
+				answer = scanner.nextLine();
+				
+				if (answer.equalsIgnoreCase("yes")) {
+					break;
+				}
+				else if (answer.equalsIgnoreCase("no")) {
+					break;
+				}
+				else {
+					System.out.println("Please type yes or no");
+				}
+			}
+			if (answer.equalsIgnoreCase("yes")) {
+				ArrayList<Album> albumList = mStore.searchAlbumByArtist(artist, false);
+				for(Album alb: albumList) {
+					if (alb.getAlbum().contains(songList.getFirst())) {
+						alb.printAlbumDetails();
+					}
+				}
+			}
+		}
 		else {
-			for (Song song: songList) {
-				song.printAllDetails();
-				System.out.println(); // so there is a space between each song
+			for (Song s: songList) {
+				s.printAllDetails();
+				
+				System.out.println("Would you like to get the information of this song?");
+				Scanner scanner = new Scanner(System.in);
+				String answer = "";
+				
+				while(!(answer.equalsIgnoreCase("yes")) || !(answer.equalsIgnoreCase("no"))) {
+					answer = scanner.nextLine();
+					
+					if (answer.equalsIgnoreCase("yes")) {
+						break;
+					}
+					else if (answer.equalsIgnoreCase("no")) {
+						break;
+					}
+					else {
+						System.out.println("Please type yes or no");
+					}
+				}
+				if (answer.equalsIgnoreCase("yes")) {
+					ArrayList<Album> albumList = mStore.searchAlbumByArtist(artist, false);
+					for(Album alb: albumList) {
+						if (alb.getAlbum().contains(s)) {
+							alb.printAlbumDetails();
+						}
+					}
+				}
 			}
 		}
 	}
@@ -1106,7 +1249,6 @@ public class View {
 	}
 	
 	public void playSong(String title) {
-		Scanner scanner = new Scanner(System.in);
 		ArrayList<Song> songList = u.library.searchSongByTitle(title);
 		
 		if (songList.size() == 0) {
@@ -1115,6 +1257,7 @@ public class View {
 		
 		else if (songList.size() == 1){
 			u.library.playSong(songList.getFirst());
+			System.out.println("Playing " + songList.getFirst().getTitle());
 		}
 		
 		else {
@@ -1123,6 +1266,7 @@ public class View {
 				s.printAllDetails();
 			}
 		    
+			Scanner scanner = new Scanner(System.in);
     		System.out.println("Which artist's song would you like to play?");
     		String artistName = scanner.nextLine();
     		boolean f = false;
@@ -1247,6 +1391,92 @@ public class View {
 		PlayList pl = u.library.searchPlayList("Top Rated");
 		for (Song s : topRated) {
 			u.library.addSongToPlayList(pl, s);
+		}
+	}
+	
+	public void removeSong(String title) {
+		ArrayList<Song> songList = u.library.searchSongByTitle(title);
+		
+		if (songList.size() == 0) {
+			System.out.println("This song title is not in the library");
+		}
+		
+		else if (songList.size() == 1){
+			u.library.removeSong(songList.getFirst());
+		}
+		
+		else {
+			System.out.println("There are multiple songs with this name in the library");
+			for (Song s: songList) {
+				s.printAllDetails();
+			}
+		    
+			Scanner scanner = new Scanner(System.in);
+    		System.out.println("Which artist's song would you like to remove?");
+    		String artistName = scanner.nextLine();
+    		boolean f = false;
+    		for (Song s: songList) {
+    			if(s.getArtist().equalsIgnoreCase(artistName)){
+    				u.library.removeSong(s);
+    				System.out.println("Removed " + s.getTitle());
+    				f = true;
+    			}
+    		}
+		    		
+    		if(f == false) {
+    			System.out.println("None of the chosen songs were written by this artist");
+    		}
+    	}
+	}
+	
+	public void removeAlbum(String title) {
+		ArrayList<Album> albumList = u.library.searchAlbumByTitle(title);
+		
+		if (albumList.size() == 0) {
+			System.out.println("This album title is not in the library");
+		}
+		
+		else if (albumList.size() == 1){
+			u.library.removeAlbum(albumList.getFirst());
+			System.out.println("Removed " + albumList.getFirst().getTitle());
+		}
+		
+		else {
+			System.out.println("There are multiple albums with this name in the library");
+			for (Album a: albumList) {
+				a.printTitleAndArtist();
+			}
+		    
+			Scanner scanner = new Scanner(System.in);
+    		System.out.println("Which artist's album would you like to remove?");
+    		String artistName = scanner.nextLine();
+    		boolean f = false;
+    		for (Album a: albumList) {
+    			if(a.getArtist().equalsIgnoreCase(artistName)){
+    				u.library.removeAlbum(a);
+    				System.out.println("Removed " + a.getTitle());
+    				f = true;
+    			}
+    		}
+		    		
+    		if(f == false) {
+    			System.out.println("None of the chosen songs were written by this artist");
+    		}
+    	}
+	}
+	
+	public void shuffleSongList() {
+		u.library.shuffleSongs();
+	}
+	
+	public void shufflePlayList(String title) {
+		PlayList p = u.library.searchPlayList(title);
+		
+		if (p == null) {
+			System.out.println("There is no playlist in the library with this name");
+		}
+		else {
+			u.library.shufflePlayList(title);
 		}
 	}
 }

@@ -165,7 +165,7 @@ class LibraryModelTest {
 	void getPLsTest() {
 		initPlayLists();
 		assertEquals(lm.getPLs().getFirst().getTitle(), "sad");
-		assertEquals(lm.getPLs().getLast().getTitle(), "happy");
+		assertEquals(lm.getPLs().getFirst().getTitle(), "happy");
 	}
 	
 	@Test

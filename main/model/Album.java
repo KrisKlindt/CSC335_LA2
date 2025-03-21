@@ -36,6 +36,10 @@ public class Album {
 		}
 	}
 	
+	public void removeSong(Song song) {
+		songs.remove(song);
+	}
+	
 	public String getTitle() {
 		return title;
 	}
