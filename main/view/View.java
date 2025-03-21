@@ -160,6 +160,7 @@ public class View {
 		while (command < 18) {
 			createFavoriteSongsPlayList();
 			createGenresPlayLists();
+			createTopRatedPlayList();
 			System.out.println("Here are the features available to you.");
 			System.out.println("1. Create a playlist");
 			System.out.println("2. Add a song");

@@ -11,7 +11,7 @@ public class UserTest {
 	
 	static MusicStore ms = new MusicStore();
 
-	@Test
+	@Test 
 	void createUserTest(){
 		User user = new User("icota", "HELLOworld");
 		assertEquals("icota",user.getUName());
@@ -54,11 +54,15 @@ public class UserTest {
 		for (Song s : albs.getFirst().getAlbum()) {
 			jBiden.library.addSong(s);
 		}
+		jBiden.library.createPlayList("dem");
+		PlayList pl = jBiden.library.searchPlayList("dem");
+		ArrayList<Song> song = jBiden.library.searchSongByTitle("Turning Tables");
+		jBiden.library.addSongToPlayList(pl, song.getFirst());
 		jBiden.saveUserToFile();
 		User jBiden2 = new User("Joe_Biden");
 		jBiden2.fillLibraryFromTxt();
 		assertEquals(jBiden2.library.getAlbumTitles().getFirst(), "21");
-		ArrayList<Song> song = jBiden2.library.searchSongByTitle("Turning Tables");
-		assertEquals(song.getFirst(), "Turning Tables");
+		ArrayList<Song> song2 = jBiden2.library.searchSongByTitle("Turning Tables");
+		assertEquals(song2.getFirst().getTitle(), "Turning Tables");
 	}
 }
