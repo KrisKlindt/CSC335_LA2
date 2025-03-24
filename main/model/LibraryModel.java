@@ -223,7 +223,9 @@ public class LibraryModel {
 	    	createPlayList("Most Played Songs");
 	    	for (Song s: topSongs) {
 	    		PlayList pl = searchPlayList("Most Played Songs");
-	    		addSongToPlayList(pl, s);
+	    		if(s.getPlays() > 0) {
+	    			addSongToPlayList(pl, s);
+	    		}
 	    		pl.length10(); // to ensure list length <= 10
 	    	}
 	    }
