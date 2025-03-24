@@ -322,6 +322,12 @@ public class LibraryModel {
 			}
 		}
 		
+		for (PlayList pl: playLists) {
+			if (pl.getPlayList().contains(s)) {
+				pl.removeSong(s);
+			}
+		}
+		
 		if (flag) {
 			albums.remove(toRemove.getFirst());
 		}
