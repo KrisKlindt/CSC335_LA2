@@ -165,7 +165,7 @@ class LibraryModelTest {
 	void getPLsTest() {
 		initPlayLists();
 		assertEquals(lm.getPLs().getFirst().getTitle(), "sad");
-		assertEquals(lm.getPLs().getFirst().getTitle(), "happy");
+		assertEquals(lm.getPLs().getLast().getTitle(), "happy");
 	}
 	
 	@Test
@@ -196,8 +196,8 @@ class LibraryModelTest {
 		lm.playSong(song2);
 		lm.playSong(song3);
 		assertEquals(song3.getPlays(), 2);
-		assertEquals(lm.getRecentSongs().getFirst(), song3);
-		assertEquals(lm.getRecentSongs().getLast(), song);
+		assertEquals(lm.searchPlayList("Recently Played Songs").getPlayList().getFirst(), song3);
+		assertEquals(lm.searchPlayList("Recently Played Songs").getPlayList().getLast(), song);
 	}
 	
 	@Test
@@ -209,8 +209,8 @@ class LibraryModelTest {
 		lm.playSong(song3);
 		lm.playSong(song3);
 		lm.playSong(song3);
-		assertEquals(lm.getTop10MostPlayedSongs().getFirst(), song3);
-		assertEquals(lm.getTop10MostPlayedSongs().getLast(), song);
+		assertEquals(lm.searchPlayList("Most Played Songs").getPlayList().getFirst(), song3);
+		assertEquals(lm.searchPlayList("Most Played Songs").getPlayList().getLast(), song);
 	}
 	
 	@Test
@@ -264,5 +264,41 @@ class LibraryModelTest {
 		assertEquals(genres.getFirst(), "Alternative");
 		assertEquals(genres.get(1), "Pop");
 		assertEquals(genres.getLast(), "Latin");
+	}
+	
+	@Test
+	void removeSongTest() {
+		lm.addSong(song);
+		lm.removeSong(song);
+		assertEquals(lm.getSongs().size(), 0);
+	}
+	
+	@Test
+	void removeAlbumTest() {
+		lm.addAlbum(alb);
+		lm.removeAlbum(alb);
+		assertEquals(lm.getAlbums().size(), 0);
+	}
+	
+	@Test
+	void shuffleSongsTest() {
+		addSongs();
+		lm.shuffleSongs();
+	}
+	
+	@Test
+	void shufflePlayListTest() {
+		lm.createPlayList("playlist");
+		PlayList pl = lm.getPLs().getFirst();
+		pl.addSong(song);
+		pl.addSong(song2);
+		pl.addSong(song3);
+		lm.shufflePlayList("playlist");
+	}
+	
+	@Test
+	void albumDetailsTest() {
+		lm.addSong(song);
+		lm.getSongAlbumInfo(song);
 	}
 }

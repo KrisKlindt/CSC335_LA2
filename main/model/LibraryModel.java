@@ -8,13 +8,13 @@ public class LibraryModel {
 	private ArrayList<Song> songs;
 	private ArrayList<Album> albums;
 	private ArrayList<PlayList> playLists;
-	private ArrayList<Song> recentSongs;
+	//private ArrayList<Song> recentSongs;
 	
 	public LibraryModel() {
 		this.albums = new ArrayList<Album>();
 		this.playLists = new ArrayList<PlayList>();
 		this.songs = new ArrayList<Song>();
-		this.recentSongs = new ArrayList<Song>();
+		//this.recentSongs = new ArrayList<Song>();
 	}
 	
 	public void createPlayList(String title) {
@@ -52,7 +52,9 @@ public class LibraryModel {
 	}
 	
 	public void addSongToPlayList(PlayList p, Song s) {
-		p.addSong(s);
+		if(!(p.getPlayList().contains(s))) {
+			p.addSong(s);
+		}
 	}
 	
 	public void removeSongFromPlayList(PlayList p, Song s) {
@@ -205,21 +207,37 @@ public class LibraryModel {
 	}
 	
 	private void updateRecentSongs(Song s) {
-		recentSongs.remove(s); // removes song if already in list to maintain order
-		recentSongs.add(0, s); 
-		if (recentSongs.size() > 10) { // ensure only 10 songs are kept
-            recentSongs.remove(recentSongs.size() - 1);
-        }
+		PlayList recentSongs = searchPlayList("Recently Played Songs");
+		recentSongs.removeSong(s); // removes song if already in list to maintain order
+		recentSongs.addToFront(s); 
+		recentSongs.length10(); // will be called each time song is played, so ensures list will never be > 10
 	}
 	
-	public ArrayList<Song> getRecentSongs() {
-        return new ArrayList<>(recentSongs);
-    }
-	
-	public ArrayList<Song> getTop10MostPlayedSongs() {
+	public void updateTop10MostPlayedSongs() {
 	    ArrayList<Song> topSongs = new ArrayList<Song>(songs);
 	    topSongs.sort((s1, s2) -> Integer.compare(s2.getPlays(), s1.getPlays())); // sort in descending order
-	    return new ArrayList<>(topSongs.subList(0, Math.min(10, topSongs.size()))); // get top 10 or less
+	    
+	    // checks if playlist with same name already exists
+	    if (!(playLists.contains(new PlayList("Most Played Songs")))) {
+	    	createPlayList("Most Played Songs");
+	    	for (Song s: topSongs) {
+	    		PlayList pl = searchPlayList("Most Played Songs");
+	    		addSongToPlayList(pl, s);
+	    		pl.length10(); // to ensure list length <= 10
+	    	}
+	    }
+	    else {
+	    	// since PlayList equals method overwritten to check titles, this should work as intended
+	    	// remove old Most Played Songs Playlist, create the new one
+	    	playLists.remove(new PlayList("Most Played Songs")); // this works since .remove uses .equals, which was overridden to check title
+	    	
+	    	createPlayList("Most Played Songs");
+	    	for (Song s: topSongs) {
+	    		PlayList pl = searchPlayList("Most Played Songs");
+	    		addSongToPlayList(pl, s);
+	    		pl.length10();
+	    	}
+	    }
 	}
 	
 	public ArrayList<Song> searchSongByGenre(String genre) {
@@ -290,14 +308,22 @@ public class LibraryModel {
 		songs.remove(s);
 		// need to remove from album as well
 		String albumTitle = s.getAlbum();
+		
+		boolean flag = false;
+		ArrayList<Album> toRemove = new ArrayList<Album>();
 		for (Album alb: albums) {
 			if (alb.getTitle().equalsIgnoreCase(albumTitle)) {
 				alb.removeSong(s);
 				// check if album is empty, remove if it is
 				if (alb.getAlbum().size() == 0) {
-					albums.remove(alb);
+					flag = true;
+					toRemove.add(alb);
 				}
 			}
+		}
+		
+		if (flag) {
+			albums.remove(toRemove.getFirst());
 		}
 	}
 	
@@ -315,7 +341,7 @@ public class LibraryModel {
 	public void shufflePlayList(String title) {
 		for (PlayList pl: playLists) {
 			if (pl.getTitle().equals(title)) {
-				Collections.shuffle(pl.getPlayList());
+				pl.shuffleSongs();
 			}
 		}
 	}

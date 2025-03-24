@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class PlayList {
 	private String title;
@@ -26,8 +27,22 @@ public class PlayList {
     	}
     }
     
+    public void addToFront(Song song) {
+    	songs.add(0, song);
+    }
+    
     public void removeSong(Song song) {
     	songs.remove(song);
+    }
+    
+    public void length10() {
+    	if (songs.size() > 10) { // ensure only 10 songs are kept
+            songs.remove(songs.size() - 1);
+        }
+    }
+    
+    public void shuffleSongs() {
+    	Collections.shuffle(songs);
     }
     
     public void printPlaylist() {
@@ -36,4 +51,12 @@ public class PlayList {
     		System.out.println(song.getTitle() + " by " + song.getArtist());
     	}
     }
+    
+    @Override
+   	public boolean equals(Object o) {
+   		if(o == null) return false;
+   		if(o == this) return true;
+   		if(o.getClass() != this.getClass()) return false;
+   		return ((PlayList)o).title.equals(this.title);
+   	}
 }

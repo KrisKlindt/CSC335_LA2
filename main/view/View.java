@@ -4,7 +4,6 @@ import model.*;
 import database.*;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -161,6 +160,8 @@ public class View {
 			createFavoriteSongsPlayList();
 			createGenresPlayLists();
 			createTopRatedPlayList();
+			createRecentlyPlayedSongs();
+			createFrequentlyPlayedSongs();
 			System.out.println("Here are the features available to you.");
 			System.out.println("1. Create a playlist");
 			System.out.println("2. Add a song");
@@ -1257,6 +1258,7 @@ public class View {
 		
 		else if (songList.size() == 1){
 			u.library.playSong(songList.getFirst());
+			u.library.updateTop10MostPlayedSongs();
 			System.out.println("Playing " + songList.getFirst().getTitle());
 		}
 		
@@ -1273,6 +1275,7 @@ public class View {
     		for (Song s: songList) {
     			if(s.getArtist().equalsIgnoreCase(artistName)){
     				u.library.playSong(s);
+    				u.library.updateTop10MostPlayedSongs();
     				System.out.println("Playing " + s.getTitle());
     				f = true;
     			}
@@ -1285,12 +1288,12 @@ public class View {
 	}
 	
 	public void getRecentSongs() {
-		ArrayList<Song> recentSongs = u.library.getRecentSongs();
-		if (recentSongs.size() == 0) {
+		PlayList recentSongs = u.library.searchPlayList("Recently Played Songs");
+		if (recentSongs.getPlayList().size() == 0) {
 			System.out.println("You haven't recently played anything. Play something!");
 		}
 		else {
-			for (Song s: recentSongs) {
+			for (Song s: recentSongs.getPlayList()) {
 				s.printAllDetails();
 				System.out.println();
 			}
@@ -1298,12 +1301,12 @@ public class View {
 	}
 	
 	public void getTop10MostPlayedSongs() {
-		ArrayList<Song> mostPlayed = u.library.getTop10MostPlayedSongs();
-		if (mostPlayed.size() == 0) {
+		PlayList mostPlayed = u.library.searchPlayList("Most Played Songs");
+		if (mostPlayed.getPlayList().size() == 0) {
 			System.out.println("You haven't played any songs in your library. Play some!");
 		}
 		else {
-			for (Song s: mostPlayed) {
+			for (Song s: mostPlayed.getPlayList()) {
 				s.printAllDetails();
 				System.out.println();
 			}
@@ -1394,6 +1397,19 @@ public class View {
 		}
 	}
 	
+	public void createRecentlyPlayedSongs() {
+		// Will create it if it doesn't already exist, i.e. new user
+		// otherwise does nothing, should already exist and be filled in
+		u.library.createPlayList("Recently Played Songs");
+	}
+	
+	
+	public void createFrequentlyPlayedSongs() {
+		// Will create it if it doesn't already exist, i.e. new user
+		// otherwise does nothing, should already exist and be filled in
+		u.library.createPlayList("Most Played Songs");
+	}
+	
 	public void removeSong(String title) {
 		ArrayList<Song> songList = u.library.searchSongByTitle(title);
 		
@@ -1477,6 +1493,7 @@ public class View {
 		}
 		else {
 			u.library.shufflePlayList(title);
+			System.out.println(p.getTitle() + " has been shuffled.");
 		}
 	}
 }

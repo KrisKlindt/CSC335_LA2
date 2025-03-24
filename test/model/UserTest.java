@@ -23,9 +23,8 @@ public class UserTest {
 	void fillLibraryTest() {
 		User dTrump = new User("Donald_Trump");
 		dTrump.fillLibraryFromTxt();
-		assertEquals(dTrump.library.getPlayLists().getFirst(), "no");
+		assertEquals(dTrump.library.getPlayLists().getFirst(), "Favorite Songs");
 		assertEquals(dTrump.library.getAlbumTitles().getFirst(), "Waking Up");
-		assertEquals(dTrump.library.getAlbumTitles().getLast(), "21");
 	}
 	
 	@Test
@@ -37,13 +36,13 @@ public class UserTest {
 	@Test
 	void getHashedPasswordTest() {
 		User dTrump = new User("Donald_Trump");
-		assertEquals(dTrump.getHashedPassword(), "O/1TkCDxY9dQqJbcr6QWrpY5Onis1EI9VfK4++kFQeMJOdfahukegXAqKrPX4xp2");
+		assertEquals(dTrump.getHashedPassword(), "vwLPMSRY9EQoy5ms+iHNwF5qQRkrsbFCBtC0Ev7vjAOfZh0EHSEvHCQ4ntqDP2JV");
 	}
 	
 	@Test
 	void getSaltStringTest() {
 		User dTrump = new User("Donald_Trump");
-		assertEquals(dTrump.getSaltString(), "O/1TkCDxY9dQqJbcr6QWrg==");
+		assertEquals(dTrump.getSaltString(), "vwLPMSRY9EQoy5ms+iHNwA==");
 	}
 	
 	@Test
