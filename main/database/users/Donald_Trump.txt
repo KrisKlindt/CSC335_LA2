@@ -1,7 +1,10 @@
 Donald_Trump,vwLPMSRY9EQoy5ms+iHNwF5qQRkrsbFCBtC0Ev7vjAOfZh0EHSEvHCQ4ntqDP2JV,vwLPMSRY9EQoy5ms+iHNwA==
-Album,Waking Up,OneRepublic,Rock,2009,Lullaby_OneRepublic_1_0_false
-PlayList,Favorite Songs
-PlayList,Top Rated
-PlayList,Recently Played Songs,Rolling in the Deep_Adele_1_0_false
+Album,Waking Up,OneRepublic,Rock,2009,Lullaby_OneRepublic_2_5_true
+Album,21,Adele,Pop,2011,Rolling in the Deep_Adele_1_0_true
+Album,19,Adele,Pop,2008,Daydreamer_Adele_0_0_false,Best for Last_Adele_0_0_false,Chasing Pavements_Adele_0_0_false,Cold Shoulder_Adele_0_0_false,Crazy for You_Adele_0_0_false,Melt My Heart to Stone_Adele_0_0_false,First Love_Adele_0_0_false,Right as Rain_Adele_0_0_false,Make You Feel My Love_Adele_0_0_false,My Same_Adele_0_0_false,Tired_Adele_0_4_false,Hometown Glory_Adele_0_0_false
+PlayList,Favorite Songs,Rolling in the Deep_Adele_1_0_true,Lullaby_OneRepublic_2_5_true
+PlayList,Top Rated,Lullaby_OneRepublic_2_5_true,Tired_Adele_0_4_false
+PlayList,Recently Played Songs,Lullaby_OneRepublic_2_0_false,Rolling in the Deep_Adele_1_0_false
 PlayList,one,Lullaby_OneRepublic_1_0_false
-PlayList,Most Played Songs,Lullaby_OneRepublic_1_0_false
+PlayList,Pop,Rolling in the Deep_Adele_1_0_false,Daydreamer_Adele_0_0_false,Best for Last_Adele_0_0_false,Chasing Pavements_Adele_0_0_false,Cold Shoulder_Adele_0_0_false,Crazy for You_Adele_0_0_false,Melt My Heart to Stone_Adele_0_0_false,First Love_Adele_0_0_false,Right as Rain_Adele_0_0_false,Make You Feel My Love_Adele_0_0_false,My Same_Adele_0_0_false,Tired_Adele_0_0_false,Hometown Glory_Adele_0_0_false
+PlayList,Most Played Songs,Lullaby_OneRepublic_2_0_false,Rolling in the Deep_Adele_1_0_false

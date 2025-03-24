@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 
 public class LibraryModel {
 	private ArrayList<Song> songs;
@@ -237,7 +236,9 @@ public class LibraryModel {
 	    	createPlayList("Most Played Songs");
 	    	for (Song s: topSongs) {
 	    		PlayList pl = searchPlayList("Most Played Songs");
-	    		addSongToPlayList(pl, s);
+	    		if(s.getPlays() > 0) {
+	    			addSongToPlayList(pl, s);
+	    		}
 	    		pl.length10();
 	    	}
 	    }

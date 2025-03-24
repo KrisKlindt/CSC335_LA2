@@ -912,74 +912,6 @@ public class View {
 		else if (songList.size() == 1){
 			songList.getFirst().printAllDetails();
 			
-			System.out.println("Would you like to get the information of this song?");
-			Scanner scanner = new Scanner(System.in);
-			String answer = "";
-			
-			while(!(answer.equalsIgnoreCase("yes")) || !(answer.equalsIgnoreCase("no"))) {
-				answer = scanner.nextLine();
-				
-				if (answer.equalsIgnoreCase("yes")) {
-					break;
-				}
-				else if (answer.equalsIgnoreCase("no")) {
-					break;
-				}
-				else {
-					System.out.println("Please type yes or no");
-				}
-			}
-			if (answer.equalsIgnoreCase("yes")) {
-				ArrayList<Album> albumList = mStore.searchAlbumByTitle(title, false);
-				for(Album alb: albumList) {
-					if (alb.getAlbum().contains(songList.getFirst())) {
-						alb.printAlbumDetails();
-					}
-				}
-			}
-		}
-		else {
-			for (Song s: songList) {
-				s.printAllDetails();
-				
-				System.out.println("Would you like to get the information of this song?");
-				Scanner scanner = new Scanner(System.in);
-				String answer = "";
-				
-				while(!(answer.equalsIgnoreCase("yes")) || !(answer.equalsIgnoreCase("no"))) {
-					answer = scanner.nextLine();
-					
-					if (answer.equalsIgnoreCase("yes")) {
-						break;
-					}
-					else if (answer.equalsIgnoreCase("no")) {
-						break;
-					}
-					else {
-						System.out.println("Please type yes or no");
-					}
-				}
-				if (answer.equalsIgnoreCase("yes")) {
-					ArrayList<Album> albumList = mStore.searchAlbumByTitle(title, false);
-					for(Album alb: albumList) {
-						if (alb.getAlbum().contains(s)) {
-							alb.printAlbumDetails();
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	public void searchSongByArtist(String artist) {
-		ArrayList<Song> songList = mStore.searchSongByArtist(artist, false);
-		
-		if (songList.size() == 0) {
-			System.out.println("This song artist is not in the music store");
-		}
-		else if (songList.size() == 1){
-			songList.getFirst().printAllDetails();
-			
 			System.out.println("Would you like to get the album information of this song?");
 			Scanner scanner = new Scanner(System.in);
 			String answer = "";
@@ -998,7 +930,7 @@ public class View {
 				}
 			}
 			if (answer.equalsIgnoreCase("yes")) {
-				ArrayList<Album> albumList = mStore.searchAlbumByArtist(artist, false);
+				ArrayList<Album> albumList = mStore.searchAlbumByTitle(songList.getFirst().getAlbum(), false);
 				for(Album alb: albumList) {
 					if (alb.getAlbum().contains(songList.getFirst())) {
 						alb.printAlbumDetails();
@@ -1010,7 +942,7 @@ public class View {
 			for (Song s: songList) {
 				s.printAllDetails();
 				
-				System.out.println("Would you like to get the information of this song?");
+				System.out.println("Would you like to get the album information of this song?");
 				Scanner scanner = new Scanner(System.in);
 				String answer = "";
 				
@@ -1028,13 +960,31 @@ public class View {
 					}
 				}
 				if (answer.equalsIgnoreCase("yes")) {
-					ArrayList<Album> albumList = mStore.searchAlbumByArtist(artist, false);
+					ArrayList<Album> albumList = mStore.searchAlbumByTitle(s.getAlbum(), false);
 					for(Album alb: albumList) {
 						if (alb.getAlbum().contains(s)) {
 							alb.printAlbumDetails();
 						}
 					}
 				}
+			}
+		}
+	}
+	
+	public void searchSongByArtist(String artist) {
+		ArrayList<Song> songList = mStore.searchSongByArtist(artist, false);
+		
+		if (songList.size() == 0) {
+			System.out.println("This song artist is not in the music store");
+		}
+		else if (songList.size() == 1){
+			songList.getFirst().printAllDetails();	
+			System.out.println();
+		}
+		else {
+			for (Song s: songList) {
+				s.printAllDetails();
+				System.out.println();
 			}
 		}
 	}
