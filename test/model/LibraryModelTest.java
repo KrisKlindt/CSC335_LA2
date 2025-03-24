@@ -191,6 +191,7 @@ class LibraryModelTest {
 	@Test
 	void playAndGetRecentSongsTest() {
 		addSongs();
+		lm.createPlayList("Recently Played Songs"); // Need to do this, since this is usually initialized in view
 		lm.playSong(song);
 		lm.playSong(song3);
 		lm.playSong(song2);
@@ -203,6 +204,8 @@ class LibraryModelTest {
 	@Test
 	void getMostPlayedTest() {
 		addSongs();
+		lm.createPlayList("Recently Played Songs"); // Need to do this, since this is usually initialized in view
+		lm.createPlayList("Most Played Songs"); // Need to do this, since this is usually initialized in view
 		lm.playSong(song);
 		lm.playSong(song2);
 		lm.playSong(song2);

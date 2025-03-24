@@ -1,0 +1,3 @@
+null,null,null
+Album,21,Adele,Pop,2011,Rolling in the Deep_Adele_0_0_false,Rumour Has It_Adele_0_0_false,Turning Tables_Adele_0_0_false,Don't You Remember_Adele_0_0_false,Set Fire to the Rain_Adele_0_0_false,He Won't Go_Adele_0_0_false,Take It All_Adele_0_0_false,I'll Be Waiting_Adele_0_0_false,One and Only_Adele_0_0_false,Lovesong_Adele_0_0_false,Someone Like You_Adele_0_0_false,I Found a Boy_Adele_0_0_false
+PlayList,dem,Turning Tables_Adele_0_0_false

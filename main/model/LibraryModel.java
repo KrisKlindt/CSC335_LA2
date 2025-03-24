@@ -204,6 +204,7 @@ public class LibraryModel {
 	public void playSong(Song s) {
 		s.play();
 		updateRecentSongs(s);
+		updateTop10MostPlayedSongs();
 	}
 	
 	private void updateRecentSongs(Song s) {

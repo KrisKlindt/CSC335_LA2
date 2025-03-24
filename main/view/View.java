@@ -1275,7 +1275,6 @@ public class View {
     		for (Song s: songList) {
     			if(s.getArtist().equalsIgnoreCase(artistName)){
     				u.library.playSong(s);
-    				u.library.updateTop10MostPlayedSongs();
     				System.out.println("Playing " + s.getTitle());
     				f = true;
     			}

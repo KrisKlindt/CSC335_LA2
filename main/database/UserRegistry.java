@@ -13,7 +13,7 @@ import java.util.HashMap;
 import model.User;
 
 public class UserRegistry {
-	// key String is the hashed password of the user
+	// key String is the username of the user
 	private HashMap<String, User> Users;
 
 	public UserRegistry() {
